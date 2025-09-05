@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const AdminCLI = require('../utils/admin-base');
-const { updateUserPassword, updateUsername, deleteUser } = require('../../src/adminController');
+const ControllerFactory = require('../../src/factories/ControllerFactory');
 
 class ManageUsersCLI extends AdminCLI {
   async findUserByIdOrUsername(identifier) {
@@ -49,7 +49,8 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Alterando senha...');
-    const result = await updateUserPassword(user.id, newPassword, 1); // Admin ID hardcoded para CLI
+    const adminController = ControllerFactory.createAdminController();
+    const result = await adminController.updateUserPassword(user.id, newPassword, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Senha de '${user.username}' alterada com sucesso`);
@@ -82,7 +83,8 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Alterando nome de usuário...');
-    const result = await updateUsername(user.id, newUsername, 1); // Admin ID hardcoded para CLI
+    const adminController = ControllerFactory.createAdminController();
+    const result = await adminController.updateUsername(user.id, newUsername, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Nome de usuário alterado de '${user.username}' para '${newUsername}'`);
@@ -117,7 +119,8 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Deletando usuário...');
-    const result = await deleteUser(user.id, 1); // Admin ID hardcoded para CLI
+    const adminController = ControllerFactory.createAdminController();
+    const result = await adminController.deleteUser(user.id, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Usuário '${user.username}' deletado com sucesso`);

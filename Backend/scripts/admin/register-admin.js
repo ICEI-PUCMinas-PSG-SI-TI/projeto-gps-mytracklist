@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const AdminCLI = require('../utils/admin-base');
-const { registerAdmin } = require('../../src/adminController');
+const ControllerFactory = require('../../src/factories/ControllerFactory');
 
 class RegisterAdminCLI extends AdminCLI {
   async validatePassword(password) {
@@ -53,7 +53,8 @@ class RegisterAdminCLI extends AdminCLI {
       }
 
       this.log('Criando administrador...');
-      const result = await registerAdmin(username, password);
+      const adminController = ControllerFactory.createAdminController();
+      const result = await adminController.registerAdmin(username, password);
 
       if (result.success) {
         this.success(`Administrador '${username}' criado com sucesso!`);

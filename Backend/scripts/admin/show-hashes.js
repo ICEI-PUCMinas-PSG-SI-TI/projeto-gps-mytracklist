@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const AdminCLI = require('../utils/admin-base');
-const { getUserHashes } = require('../../src/adminController');
+const ControllerFactory = require('../../src/factories/ControllerFactory');
 
 class ShowHashesCLI extends AdminCLI {
   async run() {
@@ -33,7 +33,8 @@ class ShowHashesCLI extends AdminCLI {
 
       this.log('Carregando hashes de senha...');
 
-      const result = await getUserHashes(1); // Admin ID hardcoded para CLI
+      const adminController = ControllerFactory.createAdminController();
+      const result = await adminController.getUserHashes(1); // Admin ID hardcoded para CLI
 
       if (result.success) {
         console.log('\n🔐 Hashes de Senha dos Usuários:');
