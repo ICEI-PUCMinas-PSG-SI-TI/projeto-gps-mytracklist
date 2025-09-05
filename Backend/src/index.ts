@@ -3,6 +3,7 @@ const session = require('express-session');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const crypto = require('crypto');
 const { ControllerFactory } = require('./factories/ControllerFactory');
 
 const app = express();
@@ -161,8 +162,10 @@ app.post('/api/v1/auth/login', async (req: any, res: any) => {
 
   const result = await userController.authenticateUser(username, password);
   if (result.success) {
+    const sessionId = crypto.randomUUID();
+    req.session.sessionId = sessionId;
     req.session.userId = result.userId;
-    res.json({ message: 'Login realizado com sucesso' });
+    res.json({ message: 'Login realizado com sucesso', sessionId });
   } else {
     res.status(401).json({ error: result.message });
   }
@@ -188,8 +191,10 @@ app.post('/api/v1/admin/login', async (req: any, res: any) => {
 
   const result = await adminController.authenticateAdmin(username, password);
   if (result.success) {
+    const sessionId = crypto.randomUUID();
+    req.session.sessionId = sessionId;
     req.session.adminId = result.adminId;
-    res.json({ message: 'Login de administrador realizado com sucesso' });
+    res.json({ message: 'Login de administrador realizado com sucesso', sessionId });
   } else {
     res.status(401).json({ error: result.message });
   }
@@ -208,7 +213,11 @@ app.post('/api/v1/admin/logout', (req: any, res: any) => {
 
 // Exemplo de rota protegida
 app.get('/api/v1/user/profile', requireAuth, (req: any, res: any) => {
-  res.json({ message: 'Bem-vindo ao seu perfil!', userId: req.session.userId });
+  res.json({
+    message: 'Bem-vindo ao seu perfil!',
+    userId: req.session.userId,
+    sessionId: req.session.sessionId
+  });
 });
 
 // Endpoints administrativos
