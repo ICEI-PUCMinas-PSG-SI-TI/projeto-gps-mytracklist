@@ -1,18 +1,13 @@
 const express = require('express');
 const session = require('express-session');
-const { initializeDatabase } = require('./database');
-const { registerUser, authenticateUser } = require('./userController');
-const {
-  authenticateAdmin,
-  listUsers,
-  updateUserPassword,
-  updateUsername,
-  deleteUser,
-  getUserHashes
-} = require('./adminController');
+const { ControllerFactory } = require('./factories/ControllerFactory');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Instâncias dos controllers
+const userController = ControllerFactory.createUserController();
+const adminController = ControllerFactory.createAdminController();
 
 // Configuração do middleware
 app.use(express.json());
@@ -46,7 +41,7 @@ const requireAdminAuth = (req: any, res: any, next: any) => {
 };
 
 // Inicializa o banco de dados
-initializeDatabase().then(() => {
+ControllerFactory.initializeDatabase().then(() => {
   console.log('Banco de dados inicializado');
 }).catch((error: any) => {
   console.error('Falha ao inicializar banco de dados:', error);
@@ -64,7 +59,7 @@ app.post('/api/v1/auth/register', async (req: any, res: any) => {
     return res.status(400).json({ error: 'Nome de usuário deve ter pelo menos 3 caracteres e senha pelo menos 6 caracteres' });
   }
 
-  const result = await registerUser(username, password);
+  const result = await userController.registerUser(username, password);
   if (result.success) {
     res.status(201).json({ message: 'Usuário registrado com sucesso' });
   } else {
@@ -79,7 +74,7 @@ app.post('/api/v1/auth/login', async (req: any, res: any) => {
     return res.status(400).json({ error: 'Nome de usuário e senha são obrigatórios' });
   }
 
-  const result = await authenticateUser(username, password);
+  const result = await userController.authenticateUser(username, password);
   if (result.success) {
     req.session.userId = result.userId;
     res.json({ message: 'Login realizado com sucesso' });
@@ -106,7 +101,7 @@ app.post('/api/v1/admin/login', async (req: any, res: any) => {
     return res.status(400).json({ error: 'Nome de administrador e senha são obrigatórios' });
   }
 
-  const result = await authenticateAdmin(username, password);
+  const result = await adminController.authenticateAdmin(username, password);
   if (result.success) {
     req.session.adminId = result.adminId;
     res.json({ message: 'Login de administrador realizado com sucesso' });
@@ -136,7 +131,7 @@ app.get('/api/v1/admin/users', requireAdminAuth, async (req: any, res: any) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
 
-  const result = await listUsers(page, limit);
+  const result = await adminController.listUsers(page, limit);
   if (result.success) {
     res.json(result);
   } else {
@@ -152,7 +147,7 @@ app.put('/api/v1/admin/users/:id/password', requireAdminAuth, async (req: any, r
     return res.status(400).json({ error: 'Senha deve ter pelo menos 6 caracteres' });
   }
 
-  const result = await updateUserPassword(parseInt(id), password, req.session.adminId);
+  const result = await adminController.updateUserPassword(parseInt(id), password, req.session.adminId);
   if (result.success) {
     res.json({ message: 'Senha do usuário atualizada com sucesso' });
   } else {
@@ -168,7 +163,7 @@ app.put('/api/v1/admin/users/:id/username', requireAdminAuth, async (req: any, r
     return res.status(400).json({ error: 'Nome de usuário deve ter pelo menos 3 caracteres' });
   }
 
-  const result = await updateUsername(parseInt(id), username, req.session.adminId);
+  const result = await adminController.updateUsername(parseInt(id), username, req.session.adminId);
   if (result.success) {
     res.json({ message: 'Nome de usuário atualizado com sucesso' });
   } else {
@@ -179,7 +174,7 @@ app.put('/api/v1/admin/users/:id/username', requireAdminAuth, async (req: any, r
 app.delete('/api/v1/admin/users/:id', requireAdminAuth, async (req: any, res: any) => {
   const { id } = req.params;
 
-  const result = await deleteUser(parseInt(id), req.session.adminId);
+  const result = await adminController.deleteUser(parseInt(id), req.session.adminId);
   if (result.success) {
     res.json({ message: 'Usuário deletado com sucesso' });
   } else {
@@ -188,7 +183,7 @@ app.delete('/api/v1/admin/users/:id', requireAdminAuth, async (req: any, res: an
 });
 
 app.get('/api/v1/admin/users/hashes', requireAdminAuth, async (req: any, res: any) => {
-  const result = await getUserHashes(req.session.adminId);
+  const result = await adminController.getUserHashes(req.session.adminId);
   if (result.success) {
     res.json(result);
   } else {
