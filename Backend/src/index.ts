@@ -12,14 +12,23 @@ const adminController = ControllerFactory.createAdminController();
 // Configuração do middleware
 app.use(express.json());
 
+// Validação obrigatória da chave secreta da sessão
+if (!process.env.SESSION_SECRET) {
+  console.error('❌ ERRO CRÍTICO: SESSION_SECRET não definida!');
+  console.error('Defina a variável de ambiente SESSION_SECRET com uma chave segura.');
+  console.error('Exemplo: SESSION_SECRET=uma-chave-muito-segura-aqui');
+  process.exit(1);
+}
+
 // Configuração da sessão
-app.use(session({ // TODO: temos que lembrar de redefinir o abaixo em produção!
-  secret: process.env.SESSION_SECRET || 'sua-chave-secreta-altere-em-producao',
+app.use(session({
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // TODO: lembrar de definir como true em produção com HTTPS!
+    secure: process.env.NODE_ENV === 'production', // HTTPS apenas em produção
     httpOnly: true,
+    sameSite: 'strict', // Proteção CSRF
     maxAge: 24 * 60 * 60 * 1000 // 24 horas
   }
 }));
