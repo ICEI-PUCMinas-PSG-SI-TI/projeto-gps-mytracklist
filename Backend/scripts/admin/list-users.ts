@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const AdminCLI = require('../utils/admin-base');
+import AdminCLI from '../utils/admin-base';
 
 class ListUsersCLI extends AdminCLI {
-  formatDate(dateString) {
+  formatDate(dateString: string | null): string {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString('pt-BR');
   }
 
-  displayUsersTable(users, showHashes = false) {
+  displayUsersTable(users: any[], showHashes: boolean = false) {
     console.log('\n📋 Lista de Usuários:');
     console.log('='.repeat(showHashes ? 120 : 80));
 
@@ -46,8 +46,8 @@ class ListUsersCLI extends AdminCLI {
     try {
       const args = process.argv.slice(2);
       const showHashes = args.includes('--show-hashes');
-      const page = parseInt(args.find(arg => arg.startsWith('--page='))?.split('=')[1]) || 1;
-      const limit = parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1]) || 50;
+      const page = parseInt(args.find(arg => arg.startsWith('--page='))?.split('=')[1] || '1');
+      const limit = parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1] || '50');
 
       if (showHashes) {
         console.log('⚠️  ATENÇÃO: Mostrar hashes de senha é uma operação sensível!');
@@ -63,7 +63,7 @@ class ListUsersCLI extends AdminCLI {
       const db = await this.connectDB();
       const offset = (page - 1) * limit;
 
-      let query, params;
+      let query: string, params: any[];
       if (showHashes) {
         query = 'SELECT id, username, password_hash, created_at FROM users ORDER BY id LIMIT ? OFFSET ?';
         params = [limit, offset];
@@ -96,7 +96,7 @@ class ListUsersCLI extends AdminCLI {
         this.log('Operação de visualização de hashes registrada no log de auditoria');
       }
 
-    } catch (error) {
+    } catch (error: any) {
       this.error(`Erro ao listar usuários: ${error.message}`);
     } finally {
       this.close();
@@ -105,9 +105,9 @@ class ListUsersCLI extends AdminCLI {
 }
 
 // Executa se chamado diretamente
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new ListUsersCLI();
   cli.run();
 }
 
-module.exports = ListUsersCLI;
+export default ListUsersCLI;

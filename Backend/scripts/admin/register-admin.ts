@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const AdminCLI = require('../utils/admin-base');
-const ControllerFactory = require('../../src/factories/ControllerFactory');
+import AdminCLI from '../utils/admin-base';
+import { ControllerFactory } from '../../src/factories/ControllerFactory.js';
 
 class RegisterAdminCLI extends AdminCLI {
-  async validatePassword(password) {
+  validatePassword(password: string): string | null {
     if (password.length < 8) {
       return 'A senha deve ter pelo menos 8 caracteres';
     }
@@ -53,6 +53,7 @@ class RegisterAdminCLI extends AdminCLI {
       }
 
       this.log('Criando administrador...');
+      await ControllerFactory.initializeDatabase();
       const adminController = ControllerFactory.createAdminController();
       const result = await adminController.registerAdmin(username, password);
 
@@ -60,10 +61,10 @@ class RegisterAdminCLI extends AdminCLI {
         this.success(`Administrador '${username}' criado com sucesso!`);
         this.log('Use este administrador para fazer login no painel administrativo');
       } else {
-        this.error(result.message);
+        this.error(result.message || 'Erro desconhecido');
       }
 
-    } catch (error) {
+    } catch (error: any) {
       this.error(`Erro inesperado: ${error.message}`);
     } finally {
       this.close();
@@ -72,9 +73,9 @@ class RegisterAdminCLI extends AdminCLI {
 }
 
 // Executa se chamado diretamente
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new RegisterAdminCLI();
   cli.run();
 }
 
-module.exports = RegisterAdminCLI;
+export default RegisterAdminCLI;

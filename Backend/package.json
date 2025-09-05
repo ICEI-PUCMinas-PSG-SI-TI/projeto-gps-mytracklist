@@ -6,13 +6,13 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "dev": "bun --watch src/index.ts",
-    "build": "tsc",
     "test": "bun test",
-    "admin:register": "bun scripts/admin/register-admin.js",
-    "admin:list-users": "bun scripts/admin/list-users.js",
-    "admin:manage-users": "bun scripts/admin/manage-users.js",
-    "admin:show-hashes": "bun scripts/admin/show-hashes.js",
-    "admin": "echo 'Comandos disponíveis: register, list-users, manage-users, show-hashes'"
+    "admin:register-admin": "bun scripts/admin/register-admin.ts",
+    "admin:register-user": "bun scripts/admin/register-user.ts",
+    "admin:list-users": "bun scripts/admin/list-users.ts",
+    "admin:manage-users": "bun scripts/admin/manage-users.ts",
+    "admin:show-hashes": "bun scripts/admin/show-hashes.ts",
+    "admin": "echo 'Comandos disponíveis: register-admin, register-user, list-users, manage-users, show-hashes'"
   },
   "keywords": [],
   "author": "",

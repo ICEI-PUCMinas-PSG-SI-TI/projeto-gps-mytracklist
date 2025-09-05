@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const AdminCLI = require('../utils/admin-base');
-const ControllerFactory = require('../../src/factories/ControllerFactory');
+import AdminCLI from '../utils/admin-base';
+import { ControllerFactory } from '../../src/factories/ControllerFactory.js';
 
 class ShowHashesCLI extends AdminCLI {
   async run() {
@@ -33,14 +33,15 @@ class ShowHashesCLI extends AdminCLI {
 
       this.log('Carregando hashes de senha...');
 
+      await ControllerFactory.initializeDatabase();
       const adminController = ControllerFactory.createAdminController();
       const result = await adminController.getUserHashes(1); // Admin ID hardcoded para CLI
 
-      if (result.success) {
+      if (result.success && result.users) {
         console.log('\n🔐 Hashes de Senha dos Usuários:');
         console.log('='.repeat(100));
 
-        result.users.forEach(user => {
+        result.users.forEach((user: any) => {
           console.log(`ID: ${user.id}`);
           console.log(`Usuário: ${user.username}`);
           console.log(`Hash: ${user.password_hash}`);
@@ -50,10 +51,10 @@ class ShowHashesCLI extends AdminCLI {
         this.success(`${result.users.length} hashes carregadas`);
         this.log('Esta operação foi registrada no log de auditoria');
       } else {
-        this.error(result.message);
+        this.error(result.message || 'Erro desconhecido');
       }
 
-    } catch (error) {
+    } catch (error: any) {
       this.error(`Erro ao carregar hashes: ${error.message}`);
     } finally {
       this.close();
@@ -62,9 +63,9 @@ class ShowHashesCLI extends AdminCLI {
 }
 
 // Executa se chamado diretamente
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new ShowHashesCLI();
   cli.run();
 }
 
-module.exports = ShowHashesCLI;
+export default ShowHashesCLI;

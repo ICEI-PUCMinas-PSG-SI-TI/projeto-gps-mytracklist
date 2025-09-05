@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const AdminCLI = require('../utils/admin-base');
-const ControllerFactory = require('../../src/factories/ControllerFactory');
+import AdminCLI from '../utils/admin-base';
+import { ControllerFactory } from '../../src/factories/ControllerFactory.js';
 
 class ManageUsersCLI extends AdminCLI {
-  async findUserByIdOrUsername(identifier) {
+  async findUserByIdOrUsername(identifier: string) {
     const db = await this.connectDB();
-    let user;
+    let user: any;
 
-    if (!isNaN(identifier)) {
+    if (!isNaN(Number(identifier))) {
       // Busca por ID
       user = await db.get('SELECT id, username FROM users WHERE id = ?', [parseInt(identifier)]);
     } else {
@@ -49,13 +49,14 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Alterando senha...');
+    await ControllerFactory.initializeDatabase();
     const adminController = ControllerFactory.createAdminController();
     const result = await adminController.updateUserPassword(user.id, newPassword, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Senha de '${user.username}' alterada com sucesso`);
     } else {
-      this.error(result.message);
+      this.error(result.message || 'Erro desconhecido');
     }
   }
 
@@ -83,13 +84,14 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Alterando nome de usuário...');
+    await ControllerFactory.initializeDatabase();
     const adminController = ControllerFactory.createAdminController();
     const result = await adminController.updateUsername(user.id, newUsername, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Nome de usuário alterado de '${user.username}' para '${newUsername}'`);
     } else {
-      this.error(result.message);
+      this.error(result.message || 'Erro desconhecido');
     }
   }
 
@@ -119,13 +121,14 @@ class ManageUsersCLI extends AdminCLI {
     }
 
     this.log('Deletando usuário...');
+    await ControllerFactory.initializeDatabase();
     const adminController = ControllerFactory.createAdminController();
     const result = await adminController.deleteUser(user.id, 1); // Admin ID hardcoded para CLI
 
     if (result.success) {
       this.success(`Usuário '${user.username}' deletado com sucesso`);
     } else {
-      this.error(result.message);
+      this.error(result.message || 'Erro desconhecido');
     }
   }
 
@@ -167,7 +170,7 @@ class ManageUsersCLI extends AdminCLI {
         console.log('\nPressione Enter para continuar...');
         await this.question('');
       }
-    } catch (error) {
+    } catch (error: any) {
       this.error(`Erro inesperado: ${error.message}`);
     } finally {
       this.close();
@@ -176,9 +179,9 @@ class ManageUsersCLI extends AdminCLI {
 }
 
 // Executa se chamado diretamente
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new ManageUsersCLI();
   cli.run();
 }
 
-module.exports = ManageUsersCLI;
+export default ManageUsersCLI;
