@@ -7,7 +7,13 @@
     "start": "ts-node src/index.ts",
     "dev": "ts-node --watch src/index.ts",
     "build": "tsc",
-    "test": "echo \"Erro: nenhum teste especificado\" && exit 1"
+    "test": "echo \"Erro: nenhum teste especificado\" && exit 1",
+
+    "admin:register": "ts-node scripts/admin/register-admin.js",
+    "admin:list-users": "ts-node scripts/admin/list-users.js",
+    "admin:manage-users": "ts-node scripts/admin/manage-users.js",
+    "admin:show-hashes": "ts-node scripts/admin/show-hashes.js",
+    "admin": "echo 'Comandos disponíveis: register, list-users, manage-users, show-hashes'"
   },
   "keywords": [],
   "author": "",

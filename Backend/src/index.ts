@@ -2,6 +2,14 @@ const express = require('express');
 const session = require('express-session');
 const { initializeDatabase } = require('./database');
 const { registerUser, authenticateUser } = require('./userController');
+const {
+  authenticateAdmin,
+  listUsers,
+  updateUserPassword,
+  updateUsername,
+  deleteUser,
+  getUserHashes
+} = require('./adminController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +33,14 @@ app.use(session({ // TODO: temos que lembrar de redefinir o abaixo em produção
 const requireAuth = (req: any, res: any, next: any) => {
   if (!req.session.userId) {
     return res.status(401).json({ error: 'Autenticação necessária' });
+  }
+  next();
+};
+
+// Middleware de autenticação para administradores
+const requireAdminAuth = (req: any, res: any, next: any) => {
+  if (!req.session.adminId) {
+    return res.status(401).json({ error: 'Autenticação de administrador necessária' });
   }
   next();
 };
@@ -82,9 +98,102 @@ app.post('/api/v1/auth/logout', (req: any, res: any) => {
   });
 });
 
+// Login de administrador
+app.post('/api/v1/admin/login', async (req: any, res: any) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Nome de administrador e senha são obrigatórios' });
+  }
+
+  const result = await authenticateAdmin(username, password);
+  if (result.success) {
+    req.session.adminId = result.adminId;
+    res.json({ message: 'Login de administrador realizado com sucesso' });
+  } else {
+    res.status(401).json({ error: result.message });
+  }
+});
+
+// Logout de administrador
+app.post('/api/v1/admin/logout', (req: any, res: any) => {
+  req.session.destroy((err: any) => {
+    if (err) {
+      return res.status(500).json({ error: 'Não foi possível fazer logout' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logout de administrador realizado com sucesso' });
+  });
+});
+
 // Exemplo de rota protegida
 app.get('/api/v1/user/profile', requireAuth, (req: any, res: any) => {
   res.json({ message: 'Bem-vindo ao seu perfil!', userId: req.session.userId });
+});
+
+// Endpoints administrativos
+app.get('/api/v1/admin/users', requireAdminAuth, async (req: any, res: any) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const result = await listUsers(page, limit);
+  if (result.success) {
+    res.json(result);
+  } else {
+    res.status(500).json({ error: result.message });
+  }
+});
+
+app.put('/api/v1/admin/users/:id/password', requireAdminAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  if (!password || password.length < 6) {
+    return res.status(400).json({ error: 'Senha deve ter pelo menos 6 caracteres' });
+  }
+
+  const result = await updateUserPassword(parseInt(id), password, req.session.adminId);
+  if (result.success) {
+    res.json({ message: 'Senha do usuário atualizada com sucesso' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+app.put('/api/v1/admin/users/:id/username', requireAdminAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  const { username } = req.body;
+
+  if (!username || username.length < 3) {
+    return res.status(400).json({ error: 'Nome de usuário deve ter pelo menos 3 caracteres' });
+  }
+
+  const result = await updateUsername(parseInt(id), username, req.session.adminId);
+  if (result.success) {
+    res.json({ message: 'Nome de usuário atualizado com sucesso' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+app.delete('/api/v1/admin/users/:id', requireAdminAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+
+  const result = await deleteUser(parseInt(id), req.session.adminId);
+  if (result.success) {
+    res.json({ message: 'Usuário deletado com sucesso' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+app.get('/api/v1/admin/users/hashes', requireAdminAuth, async (req: any, res: any) => {
+  const result = await getUserHashes(req.session.adminId);
+  if (result.success) {
+    res.json(result);
+  } else {
+    res.status(500).json({ error: result.message });
+  }
 });
 
 // Inicia o servidor
