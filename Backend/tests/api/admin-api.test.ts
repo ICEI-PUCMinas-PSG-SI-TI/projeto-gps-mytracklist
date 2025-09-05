@@ -1,5 +1,5 @@
-const request = require('supertest');
-import * as express from 'express';
+import request from 'supertest';
+import express from 'express';
 import { DatabaseFactory } from '../../src/database/DatabaseFactory';
 import { ControllerFactory } from '../../src/factories/ControllerFactory';
 
@@ -15,7 +15,7 @@ const createTestApp = async () => {
   });
 
   // Inicializar banco de dados para testes
-  const db = DatabaseFactory.create();
+  const db = DatabaseFactory.create({ type: 'memory' });
   await db.connect();
   await ControllerFactory.initializeDatabase(db);
 
@@ -25,9 +25,11 @@ const createTestApp = async () => {
 
   // Middleware de autenticação para administradores
   const requireAdminAuth = (req: any, res: any, next: any) => {
-    if (!req.session.adminId) {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token || token !== 'admin-token') {
       return res.status(401).json({ error: 'Autenticação de administrador necessária' });
     }
+    req.adminId = 1; // Simular admin ID
     next();
   };
 
@@ -41,8 +43,7 @@ const createTestApp = async () => {
 
     const result = await adminController.authenticateAdmin(username, password);
     if (result.success) {
-      req.session.adminId = result.adminId;
-      res.json({ message: 'Login de administrador realizado com sucesso' });
+      res.json({ message: 'Login de administrador realizado com sucesso', token: 'admin-token' });
     } else {
       res.status(401).json({ error: result.message });
     }
@@ -112,7 +113,7 @@ const createTestApp = async () => {
     }
   });
 
-  return app;
+  return { app, db };
 };
 
 describe('Admin API', () => {
@@ -120,10 +121,10 @@ describe('Admin API', () => {
   let db: any;
 
   beforeAll(async () => {
-    db = DatabaseFactory.create();
-    await db.connect();
-    await ControllerFactory.initializeDatabase(db);
-    app = await createTestApp();
+    const { app: testApp, db: testDb } = await createTestApp();
+    app = testApp;
+    db = testDb;
+
   });
 
   beforeEach(async () => {
@@ -150,7 +151,6 @@ describe('Admin API', () => {
         .post('/api/v1/admin/login')
         .send({ username: '', password: '' })
         .expect(400);
-
       expect(response.body.error).toBe('Nome de administrador e senha são obrigatórios');
     });
 
@@ -159,8 +159,15 @@ describe('Admin API', () => {
         .post('/api/v1/admin/login')
         .send({ username: 'nonexistent', password: 'WrongPass456!' })
         .expect(401);
-
       expect(response.body.error).toContain('Nome de administrador ou senha inválidos');
+    });
+
+    it('deve fazer login com sucesso', async () => {
+      const response = await request(app)
+        .post('/api/v1/admin/login')
+        .send({ username: 'admintest', password: 'AdminPass123!' })
+        .expect(200);
+      expect(response.body.message).toBe('Login de administrador realizado com sucesso');
     });
   });
 
@@ -169,8 +176,22 @@ describe('Admin API', () => {
       const response = await request(app)
         .get('/api/v1/admin/users')
         .expect(401);
-
       expect(response.body.error).toBe('Autenticação de administrador necessária');
+    });
+
+    it('deve permitir acesso com autenticação', async () => {
+      const loginResponse = await request(app)
+        .post('/api/v1/admin/login')
+        .send({ username: 'admintest', password: 'AdminPass123!' })
+        .expect(200);
+
+      const token = loginResponse.body.token;
+
+      const response = await request(app)
+        .get('/api/v1/admin/users')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
+      expect(response.body).toHaveProperty('users');
     });
   });
 });

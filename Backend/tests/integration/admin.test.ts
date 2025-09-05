@@ -7,32 +7,26 @@ describe('AdminController', () => {
   let adminController: AdminController;
 
   beforeEach(async () => {
-    db = DatabaseFactory.create();
+    db = DatabaseFactory.create({ type: 'memory' });
     await db.connect();
     await ControllerFactory.initializeDatabase(db);
     adminController = ControllerFactory.createAdminController(db);
   });
 
   afterEach(async () => {
-    if (db && typeof db.clearAll === 'function') {
-      await db.clearAll();
-    }
-  });
-
-  afterAll(async () => {
     if (db) {
       await db.disconnect();
     }
   });
 
   describe('registerAdmin', () => {
-    it('deve registrar administrador com sucesso', async () => {
+    test('deve registrar administrador com sucesso', async () => {
       const result = await adminController.registerAdmin('adminuser', 'AdminPass123!');
 
       expect(result.success).toBe(true);
     });
 
-    it('deve rejeitar nome de administrador duplicado', async () => {
+    test('deve rejeitar nome de administrador duplicado', async () => {
       // Primeiro registro
       await adminController.registerAdmin('adminuser', 'AdminPass123!');
 
@@ -40,7 +34,7 @@ describe('AdminController', () => {
       const result = await adminController.registerAdmin('adminuser', 'DifferentPass456!');
 
       expect(result.success).toBe(false);
-      expect(result.message).toBeDefined();
+      expect(result.message).toBe('Nome de administrador já existe.');
     });
   });
 
@@ -49,21 +43,21 @@ describe('AdminController', () => {
       await adminController.registerAdmin('adminuser', 'AdminPass123!');
     });
 
-    it('deve autenticar administrador com credenciais corretas', async () => {
+    test('deve autenticar administrador com credenciais corretas', async () => {
       const result = await adminController.authenticateAdmin('adminuser', 'AdminPass123!');
 
       expect(result.success).toBe(true);
       expect(result.adminId).toBeDefined();
     });
 
-    it('deve rejeitar senha incorreta', async () => {
+    test('deve rejetestar senha incorreta', async () => {
       const result = await adminController.authenticateAdmin('adminuser', 'WrongPass456!');
 
       expect(result.success).toBe(false);
       expect(result.message).toContain('Nome de administrador ou senha inválidos');
     });
 
-    it('deve rejeitar administrador inexistente', async () => {
+    test('deve rejetestar administrador inexistente', async () => {
       const result = await adminController.authenticateAdmin('nonexistent', 'AdminPass123!');
 
       expect(result.success).toBe(false);
@@ -80,7 +74,7 @@ describe('AdminController', () => {
       await userController.registerUser('user3', 'Pass123!');
     });
 
-    it('deve listar usuários com paginação padrão', async () => {
+    test('deve listar usuários com paginação padrão', async () => {
       const result = await adminController.listUsers();
 
       expect(result.success).toBe(true);
@@ -90,7 +84,7 @@ describe('AdminController', () => {
       expect(result.limit).toBe(10);
     });
 
-    it('deve listar usuários com paginação customizada', async () => {
+    test('deve listar usuários com paginação customizada', async () => {
       const result = await adminController.listUsers(1, 2);
 
       expect(result.success).toBe(true);
@@ -100,7 +94,7 @@ describe('AdminController', () => {
       expect(result.limit).toBe(2);
     });
 
-    it('deve listar usuários na página 2', async () => {
+    test('deve listar usuários na página 2', async () => {
       const result = await adminController.listUsers(2, 2);
 
       expect(result.success).toBe(true);
@@ -128,7 +122,7 @@ describe('AdminController', () => {
       adminId = 1; // Admin ID será 1
     });
 
-    it('deve atualizar senha do usuário com sucesso', async () => {
+    test('deve atualizar senha do usuário com sucesso', async () => {
       const result = await adminController.updateUserPassword(userId, 'NewPass456!', adminId);
 
       expect(result.success).toBe(true);
@@ -139,7 +133,7 @@ describe('AdminController', () => {
       expect(authResult.success).toBe(true);
     });
 
-    it('deve rejeitar atualização de senha para usuário inexistente', async () => {
+    test('deve rejetestar atualização de senha para usuário inexistente', async () => {
       const result = await adminController.updateUserPassword(999, 'NewPass456!', adminId);
 
       expect(result.success).toBe(false);
@@ -164,7 +158,7 @@ describe('AdminController', () => {
       adminId = 1; // Admin ID será 1
     });
 
-    it('deve atualizar nome de usuário com sucesso', async () => {
+    test('deve atualizar nome de usuário com sucesso', async () => {
       const result = await adminController.updateUsername(userId, 'newusername', adminId);
 
       expect(result.success).toBe(true);
@@ -175,7 +169,7 @@ describe('AdminController', () => {
       expect(authResult.success).toBe(true);
     });
 
-    it('deve rejeitar nome de usuário duplicado', async () => {
+    test('deve rejeitar nome de usuário duplicado', async () => {
       // Criar outro usuário
       const userController = ControllerFactory.createUserController(db);
       await userController.registerUser('otheruser', 'Pass123!');
@@ -184,10 +178,10 @@ describe('AdminController', () => {
       const result = await adminController.updateUsername(userId, 'otheruser', adminId);
 
       expect(result.success).toBe(false);
-      expect(result.message).toBeDefined();
+      expect(result.message).toBe('Nome de usuário já existe.');
     });
 
-    it('deve rejeitar atualização de nome para usuário inexistente', async () => {
+    test('deve rejeitar atualização de nome para usuário inexistente', async () => {
       const result = await adminController.updateUsername(999, 'newusername', adminId);
 
       expect(result.success).toBe(false);
@@ -212,7 +206,7 @@ describe('AdminController', () => {
       adminId = 1; // Admin ID será 1
     });
 
-    it('deve deletar usuário com sucesso', async () => {
+    test('deve deletar usuário com sucesso', async () => {
       const result = await adminController.deleteUser(userId, adminId);
 
       expect(result.success).toBe(true);
@@ -223,7 +217,7 @@ describe('AdminController', () => {
       expect(authResult.success).toBe(false);
     });
 
-    it('deve rejeitar exclusão de usuário inexistente', async () => {
+    test('deve rejetestar exclusão de usuário inexistente', async () => {
       const result = await adminController.deleteUser(999, adminId);
 
       expect(result.success).toBe(false);
@@ -244,7 +238,7 @@ describe('AdminController', () => {
       adminId = 1; // Admin ID será 1
     });
 
-    it('deve retornar hashes de todos os usuários', async () => {
+    test('deve retornar hashes de todos os usuários', async () => {
       const result = await adminController.getUserHashes(adminId);
 
       expect(result.success).toBe(true);
@@ -256,7 +250,7 @@ describe('AdminController', () => {
       expect(result.users![0].password_hash).toBeDefined();
     });
 
-    it('deve registrar log de auditoria ao visualizar hashes', async () => {
+    test('deve registrar log de audtestoria ao visualizar hashes', async () => {
       await adminController.getUserHashes(adminId);
 
       // Verificar se log foi criado

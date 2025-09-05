@@ -1,4 +1,4 @@
-const request = require('supertest');
+import request from 'supertest';
 import express from 'express';
 import { DatabaseFactory } from '../../src/database/DatabaseFactory';
 import { ControllerFactory } from '../../src/factories/ControllerFactory';
@@ -15,7 +15,7 @@ const createTestApp = async () => {
   });
 
   // Inicializar banco de dados para testes
-  const db = DatabaseFactory.create();
+  const db = DatabaseFactory.create({ type: 'memory' });
   await db.connect();
   await ControllerFactory.initializeDatabase(db);
 
@@ -59,7 +59,7 @@ const createTestApp = async () => {
     }
   });
 
-  return app;
+  return { app, db };
 };
 
 describe('Auth API', () => {
@@ -67,13 +67,9 @@ describe('Auth API', () => {
   let db: any;
 
   beforeAll(async () => {
-    db = DatabaseFactory.create();
-    await db.connect();
-    await ControllerFactory.initializeDatabase(db);
-  });
-
-  beforeEach(async () => {
-    app = await createTestApp();
+    const { app: testApp, db: testDb } = await createTestApp();
+    app = testApp;
+    db = testDb;
   });
 
   afterEach(async () => {
@@ -94,7 +90,6 @@ describe('Auth API', () => {
         .post('/api/v1/auth/register')
         .send({ username: 'testuser', password: 'TestPass123!' })
         .expect(201);
-
       expect(response.body.message).toBe('Usuário registrado com sucesso');
     });
 
@@ -103,7 +98,6 @@ describe('Auth API', () => {
         .post('/api/v1/auth/register')
         .send({ username: 'ab', password: '123' })
         .expect(400);
-
       expect(response.body.error).toContain('caracteres');
     });
 
@@ -118,8 +112,7 @@ describe('Auth API', () => {
         .post('/api/v1/auth/register')
         .send({ username: 'testuser', password: 'DifferentPass456!' })
         .expect(400);
-
-      expect(response.body.error).toContain('Falha no registro');
+      expect(response.body.error).toContain('Nome de usuário já existe');
     });
   });
 
@@ -135,7 +128,6 @@ describe('Auth API', () => {
         .post('/api/v1/auth/login')
         .send({ username: 'testuser', password: 'TestPass123!' })
         .expect(200);
-
       expect(response.body.message).toBe('Login realizado com sucesso');
     });
 
@@ -144,7 +136,6 @@ describe('Auth API', () => {
         .post('/api/v1/auth/login')
         .send({ username: 'testuser', password: 'WrongPass456!' })
         .expect(401);
-
       expect(response.body.error).toContain('Nome de usuário ou senha inválidos');
     });
   });

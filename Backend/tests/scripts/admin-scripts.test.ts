@@ -4,26 +4,20 @@ import { ControllerFactory } from '../../src/factories/ControllerFactory';
 describe('Admin Scripts Integration', () => {
   let db: any;
 
-  beforeAll(async () => {
-    db = DatabaseFactory.create();
+  beforeEach(async () => {
+    db = DatabaseFactory.create({ type: 'memory' });
     await db.connect();
     await ControllerFactory.initializeDatabase(db);
   });
 
   afterEach(async () => {
-    if (db && typeof db.clearAll === 'function') {
-      await db.clearAll();
-    }
-  });
-
-  afterAll(async () => {
     if (db) {
       await db.disconnect();
     }
   });
 
   describe('Scripts functionality through database verification', () => {
-    it('deve permitir registro de admin via lógica do script', async () => {
+    test('deve permitir registro de admin via lógica do script', async () => {
       // Simular o que o script register-admin.js faz
       const adminController = ControllerFactory.createAdminController(db);
       const result = await adminController.registerAdmin('scriptadmin', 'ScriptPass123!');
@@ -35,7 +29,7 @@ describe('Admin Scripts Integration', () => {
       expect(admin).toBeDefined();
     });
 
-    it('deve permitir listagem de usuários via lógica do script', async () => {
+    test('deve permitir listagem de usuários via lógica do script', async () => {
       // Criar usuários como o script faria
       const userController = ControllerFactory.createUserController(db);
       await userController.registerUser('scriptuser1', 'Pass123!');
@@ -49,7 +43,7 @@ describe('Admin Scripts Integration', () => {
       expect(users[1].username).toBe('scriptuser2');
     });
 
-    it('deve permitir gerenciamento de usuários via lógica do script', async () => {
+    test('deve permitir gerenciamento de usuários via lógica do script', async () => {
       // Criar usuário
       const userController = ControllerFactory.createUserController(db);
       await userController.registerUser('manageuser', 'OldPass123!');
@@ -66,7 +60,7 @@ describe('Admin Scripts Integration', () => {
       expect(authResult.success).toBe(true);
     });
 
-    it('deve permitir visualização de hashes via lógica do script', async () => {
+    test('deve permitir visualização de hashes via lógica do script', async () => {
       // Criar usuários
       const userController = ControllerFactory.createUserController(db);
       await userController.registerUser('hashuser1', 'Pass123!');
