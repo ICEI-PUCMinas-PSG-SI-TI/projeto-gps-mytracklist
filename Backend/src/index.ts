@@ -1,10 +1,10 @@
-const express = require('express');
-const session = require('express-session');
-const cors = require('cors');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const crypto = require('crypto');
-const { ControllerFactory } = require('./factories/ControllerFactory');
+import express from 'express';
+import session from 'express-session';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import crypto from 'crypto';
+import { ControllerFactory } from './factories/ControllerFactory';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
