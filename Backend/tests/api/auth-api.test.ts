@@ -9,7 +9,7 @@ const createTestApp = async () => {
   app.use(express.json());
 
   // Simular sessão para testes
-  app.use((req: any, res, next) => {
+  app.use((req: any, _res, next) => {
     req.session = {};
     next();
   });
@@ -21,7 +21,6 @@ const createTestApp = async () => {
 
   // Instâncias dos controllers
   const userController = ControllerFactory.createUserController(db);
-  const adminController = ControllerFactory.createAdminController(db);
 
   // Rotas de teste
   app.post('/api/v1/auth/register', async (req: any, res: any) => {
