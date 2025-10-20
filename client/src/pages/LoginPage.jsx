@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importe o useNavigate
 import {
   Container,
   Box,
@@ -6,19 +7,38 @@ import {
   TextField,
   Button,
   Paper,
+  Alert,
 } from '@mui/material';
+import api from '../services/api';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // 2. Inicialize o hook de navegação
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // A integração com a API será feita numa tarefa futura.
-    console.log({
-      username: username,
-      password: password,
-    });
+    setError('');
+
+    try {
+      // 3. Chame o endpoint de login correto
+      const response = await api.post('/auth/login', {
+        username: username,
+        password: password,
+      });      
+
+      // 4. Se o login for bem-sucedido, redirecione para a página inicial
+      navigate('/');
+
+    } catch (err) {
+      // 5. Se ocorrer um erro, mostre a mensagem de erro da API
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError('Ocorreu um erro inesperado. Tente novamente.');
+      }
+    }
   };
 
   return (
@@ -37,6 +57,8 @@ function LoginPage() {
           Entrar na Conta
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          {error && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{error}</Alert>}
+
           <TextField
             margin="normal"
             required
