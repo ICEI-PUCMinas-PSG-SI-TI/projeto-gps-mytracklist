@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { useAuth } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute'; // 1. Importe o ProtectedRoute
 
 function App() {
   const { isAuthenticated, user, logout, loading } = useAuth();
@@ -15,7 +16,6 @@ function App() {
     navigate('/login');
   };
 
-  // Enquanto o contexto verifica a sessão, mostramos um indicador de carregamento
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -56,7 +56,15 @@ function App() {
       </Box>
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* 2. Envolva o elemento da rota que quer proteger com o ProtectedRoute */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
@@ -65,3 +73,4 @@ function App() {
 }
 
 export default App;
+

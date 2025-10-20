@@ -183,6 +183,23 @@ app.post('/api/v1/auth/logout', (req: any, res: any) => {
   });
 });
 
+// Rota para verificar a sessão atual do utilizador
+app.get('/api/v1/auth/me', requireAuth, async (req: any, res: any) => {
+  // A função requireAuth já garante que temos um req.session.userId
+  // Agora, vamos buscar as informações do utilizador para retornar
+  try {
+    const user = await userController.getUserById(req.session.userId);
+    if (user) {
+      // Retornamos apenas os dados seguros (sem a hash da palavra-passe)
+      res.json({ id: user.id, username: user.username });
+    } else {
+      res.status(404).json({ error: 'Utilizador não encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
 // Login de administrador
 app.post('/api/v1/admin/login', async (req: any, res: any) => {
   const { username, password } = req.body;

@@ -41,4 +41,14 @@ export class UserController {
       return { success: false, message: 'Falha na autenticação.' };
     }
   }
+
+  async getUserById(userId: number) {
+  try {
+    const user = await this.db.get('SELECT id, username FROM users WHERE id = ?', [userId]);
+    return user; // Retorna o utilizador encontrado ou null
+  } catch (error) {
+    console.error('Falha ao buscar utilizador por ID:', error);
+    return null;
+  }
+}
 }
