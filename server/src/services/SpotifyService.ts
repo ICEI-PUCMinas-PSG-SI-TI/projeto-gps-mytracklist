@@ -106,4 +106,34 @@ export class SpotifyService {
       previewUrl: track.preview_url,
     }));
   }
+
+  public async getTrackDetails(trackId: string) {
+    const accessToken = await this.getAccessToken();
+
+    const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`Falha ao obter detalhes da música ${trackId} do Spotify:`, await response.text());
+      throw new Error('Falha ao obter detalhes da música do Spotify.');
+    }
+
+    const track = await response.json();
+
+    // Vamos formatar os dados para o front-end
+    return {
+      id: track.id,
+      name: track.name,
+      artist: track.artists.map((artist: any) => artist.name).join(', '),
+      album: track.album.name,
+      imageUrl: track.album.images[0]?.url,
+      durationMs: track.duration_ms,
+      previewUrl: track.preview_url,
+      popularity: track.popularity,
+      externalUrl: track.external_urls.spotify,
+    };
+  }
 }

@@ -335,3 +335,16 @@ app.get('/api/v1/spotify/search', requireAuth, async (req: any, res: any) => {
     res.status(500).json({ error: 'Erro ao comunicar com o Spotify.' });
   }
 });
+
+// nova rota para obter detalhes de uma música específica
+app.get('/api/v1/spotify/tracks/:id', requireAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+
+  try {
+    const trackDetails = await spotifyService.getTrackDetails(id);
+    res.json(trackDetails);
+  } catch (error) {
+    console.error(`Erro na rota de detalhes da música ${id}:`, error);
+    res.status(500).json({ error: 'Erro ao obter detalhes da música.' });
+  }
+});
