@@ -68,4 +68,42 @@ export class SpotifyService {
     // O '!' no final diz ao TypeScript: "Eu garanto que this.token não é nulo aqui."
     return this.token!.accessToken;
   }
+
+  // Cole este método dentro da classe SpotifyService,
+// por exemplo, a seguir ao método getAccessToken()
+
+  public async searchTracks(query: string, limit: number = 20) {
+    const accessToken = await this.getAccessToken();
+    
+    // Constrói os parâmetros da URL de forma segura
+    const searchParams = new URLSearchParams({
+      q: query,
+      type: 'track',
+      limit: limit.toString(),
+    });
+
+    const response = await fetch(`https://api.spotify.com/v1/search?${searchParams.toString()}`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error('Falha ao procurar músicas no Spotify:', await response.text());
+      throw new Error('Falha ao procurar músicas no Spotify.');
+    }
+
+    const data = await response.json();
+    
+    // Vamos simplificar os dados antes de os enviar para o front-end
+    return data.tracks.items.map((track: any) => ({
+      id: track.id,
+      name: track.name,
+      artist: track.artists.map((artist: any) => artist.name).join(', '),
+      album: track.album.name,
+      imageUrl: track.album.images[0]?.url, // Pega a primeira imagem (maior) se existir
+      durationMs: track.duration_ms,
+      previewUrl: track.preview_url,
+    }));
+  }
 }

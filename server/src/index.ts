@@ -318,3 +318,20 @@ app.get('/api/v1/spotify/test-token', async (req: any, res: any) => {
         res.status(500).json({ error: 'Falha ao obter o token do Spotify.' });
     }
 });
+
+// rota de teste do token do Spotify
+app.get('/api/v1/spotify/search', requireAuth, async (req: any, res: any) => {
+  const { q } = req.query; // 'q' vem de "query" (busca)
+
+  if (!q) {
+    return res.status(400).json({ error: 'O parâmetro de busca "q" é obrigatório.' });
+  }
+
+  try {
+    const results = await spotifyService.searchTracks(q as string);
+    res.json(results);
+  } catch (error) {
+    console.error('Erro na rota de busca do Spotify:', error);
+    res.status(500).json({ error: 'Erro ao comunicar com o Spotify.' });
+  }
+});
