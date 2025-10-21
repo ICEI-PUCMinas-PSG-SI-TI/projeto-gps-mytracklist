@@ -4,8 +4,9 @@ import { Container, Box, Button, Typography, CircularProgress } from '@mui/mater
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import SearchResultsPage from './pages/SearchResultsPage'; // 1. Importa a nova página
 import { useAuth } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute'; // 1. Importe o ProtectedRoute
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const { isAuthenticated, user, logout, loading } = useAuth();
@@ -56,17 +57,11 @@ function App() {
       </Box>
 
       <Routes>
-        {/* 2. Envolva o elemento da rota que quer proteger com o ProtectedRoute */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        {/* 2. Adiciona a nova rota para a busca, também protegida */}
+        <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
       </Routes>
     </Container>
   );
