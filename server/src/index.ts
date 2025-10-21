@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import { ControllerFactory } from './factories/ControllerFactory';
 import { UserController } from './controllers/UserController';
 import { AdminController } from './controllers/AdminController';
+import { SpotifyService } from './services/SpotifyService'; // SpotifyService importado
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,9 @@ const PORT = process.env.PORT || 3000;
 // Controllers (serão inicializados após o banco de dados)
 let userController: UserController;
 let adminController: AdminController;
+
+// Instanciar serviços
+const spotifyService = new SpotifyService();
 
 // Configuração do CORS
 app.use(cors({
@@ -302,4 +306,15 @@ app.get('/api/v1/admin/users/hashes', requireAdminAuth, async (req: any, res: an
   } else {
     res.status(500).json({ error: result.message });
   }
+});
+
+// Rota temporária para testar a obtenção do token
+// http://localhost:3000/api/v1/spotify/test-token
+app.get('/api/v1/spotify/test-token', async (req: any, res: any) => {
+    try {
+        const token = await spotifyService.getAccessToken();
+        res.json({ message: 'Token obtido com sucesso!', accessToken: token });
+    } catch (error) {
+        res.status(500).json({ error: 'Falha ao obter o token do Spotify.' });
+    }
 });
