@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTrackDetails } from '../services/spotify';
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  CircularProgress, 
-  Alert, 
-  Paper, 
-  Grid 
+import {
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+  Alert,
+  Paper,
+  Grid
 } from '@mui/material';
+import RatingInput from '../components/RatingInput'; // 1. Importe o novo componente
 
 function TrackDetailsPage() {
-  const { id } = useParams(); // Obtém o ID da música do URL
+  const { id } = useParams();
   const [track, setTrack] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // 2. Estado para guardar a avaliação (valor inicial nulo)
+  const [currentRating, setCurrentRating] = useState(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -24,6 +28,8 @@ function TrackDetailsPage() {
         setError('');
         const details = await getTrackDetails(id);
         setTrack(details);
+        // Aqui, numa tarefa futura, vamos buscar a avaliação existente do utilizador
+        setCurrentRating(null); // Por agora, começa sempre como nulo
       } catch (err) {
         setError('Falha ao carregar os detalhes da música.');
         console.error(err);
@@ -33,7 +39,14 @@ function TrackDetailsPage() {
     };
 
     fetchDetails();
-  }, [id]); // Refaz a busca se o ID no URL mudar
+  }, [id]);
+
+  const handleRatingChange = (newValue) => {
+    // Numa tarefa futura, isto irá enviar a avaliação para a API
+    console.log('Nova avaliação selecionada:', newValue);
+    setCurrentRating(newValue);
+  };
+
 
   if (loading) {
     return <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}><CircularProgress /></Box>;
@@ -73,6 +86,13 @@ function TrackDetailsPage() {
             <Typography variant="body1" color="text.secondary">
               Álbum: {track.album}
             </Typography>
+
+            {/* 3. Adicione o componente de avaliação */}
+            <RatingInput
+              value={currentRating}
+              onChange={handleRatingChange}
+            />
+
             {/* Adicionar mais detalhes aqui no futuro */}
           </Grid>
         </Grid>
@@ -82,3 +102,4 @@ function TrackDetailsPage() {
 }
 
 export default TrackDetailsPage;
+
