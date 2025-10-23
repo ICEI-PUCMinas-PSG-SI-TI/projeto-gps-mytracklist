@@ -2,6 +2,7 @@ import { IDatabase } from '../interfaces/IDatabase';
 import { DatabaseFactory } from '../database/DatabaseFactory';
 import { UserController } from '../controllers/UserController';
 import { AdminController } from '../controllers/AdminController';
+import { ReviewController } from '../controllers/ReviewController';
 
 export class ControllerFactory {
   private static db: IDatabase | null = null;
@@ -25,6 +26,12 @@ export class ControllerFactory {
   static createAdminController(db?: IDatabase): AdminController {
     const database = db || this.getDatabase();
     return new AdminController(database);
+  }
+
+  // 2. Adicione o novo método de criação
+  static createReviewController(db?: IDatabase): ReviewController {
+    const database = db || this.getDatabase();
+    return new ReviewController(database);
   }
 
   // Método para inicializar banco de dados
@@ -74,3 +81,4 @@ export class ControllerFactory {
     console.log("Banco de dados inicializado com todas as tabelas.");
   }
 }
+

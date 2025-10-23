@@ -7,7 +7,8 @@ import crypto from 'crypto';
 import { ControllerFactory } from './factories/ControllerFactory';
 import { UserController } from './controllers/UserController';
 import { AdminController } from './controllers/AdminController';
-import { SpotifyService } from './services/SpotifyService'; // SpotifyService importado
+import { ReviewController } from './controllers/ReviewController'; 
+import { SpotifyService } from './services/SpotifyService';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 // Controllers (serão inicializados após o banco de dados)
 let userController: UserController;
 let adminController: AdminController;
+let reviewController: ReviewController; 
 
 // Instanciar serviços
 const spotifyService = new SpotifyService();
@@ -126,6 +128,7 @@ async function startServer() {
     // Instâncias dos controllers (após inicialização do banco)
     userController = ControllerFactory.createUserController();
     adminController = ControllerFactory.createAdminController();
+    reviewController = ControllerFactory.createReviewController(); 
 
     // Inicia o servidor
     app.listen(PORT, () => {
@@ -138,6 +141,75 @@ async function startServer() {
 }
 
 startServer();
+
+// ===========================================
+// ROTAS DE AVALIAÇÕES (REVIEWS)
+// ===========================================
+
+// Obter a avaliação de um utilizador para uma música específica
+app.get('/api/v1/reviews/:trackId', requireAuth, async (req: any, res: any) => {
+  const { trackId } = req.params;
+  const userId = req.session.userId;
+
+  const result = await reviewController.getReviewForTrack(userId, trackId);
+  if (result.success) {
+    res.json(result.review); // Retorna a avaliação ou null
+  } else {
+    res.status(500).json({ error: result.message });
+  }
+});
+
+// Criar uma nova avaliação
+app.post('/api/v1/reviews', requireAuth, async (req: any, res: any) => {
+  const { trackId, rating } = req.body;
+  const userId = req.session.userId;
+
+  if (!trackId || rating === undefined) {
+    return res.status(400).json({ error: 'trackId e rating são obrigatórios.' });
+  }
+
+  const result = await reviewController.createReview(userId, trackId, Number(rating));
+  if (result.success) {
+    res.status(201).json({ message: 'Avaliação criada com sucesso.', reviewId: result.reviewId });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+// Atualizar uma avaliação existente
+app.put('/api/v1/reviews/:reviewId', requireAuth, async (req: any, res: any) => {
+  const { reviewId } = req.params;
+  const { rating } = req.body;
+  const userId = req.session.userId;
+
+  if (rating === undefined) {
+    return res.status(400).json({ error: 'O campo rating é obrigatório.' });
+  }
+
+  const result = await reviewController.updateReview(Number(reviewId), userId, Number(rating));
+  if (result.success) {
+    res.json({ message: 'Avaliação atualizada com sucesso.' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+// Apagar uma avaliação
+app.delete('/api/v1/reviews/:reviewId', requireAuth, async (req: any, res: any) => {
+  const { reviewId } = req.params;
+  const userId = req.session.userId;
+
+  const result = await reviewController.deleteReview(Number(reviewId), userId);
+  if (result.success) {
+    res.json({ message: 'Avaliação apagada com sucesso.' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+// ===========================================
+// FIM DAS ROTAS DE AVALIAÇÕES
+// ===========================================
+
 
 // Rotas da API
 app.post('/api/v1/auth/register', async (req: any, res: any) => {
@@ -348,3 +420,4 @@ app.get('/api/v1/spotify/tracks/:id', requireAuth, async (req: any, res: any) =>
     res.status(500).json({ error: 'Erro ao obter detalhes da música.' });
   }
 });
+
