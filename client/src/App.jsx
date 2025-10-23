@@ -4,8 +4,10 @@ import { Container, Box, Button, Typography, CircularProgress } from '@mui/mater
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import SearchResultsPage from './pages/SearchResultsPage';
+import TrackDetailsPage from './pages/TrackDetailsPage'; // 1. Importe a página de detalhes
 import { useAuth } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute'; // 1. Importe o ProtectedRoute
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const { isAuthenticated, user, logout, loading } = useAuth();
@@ -56,17 +58,12 @@ function App() {
       </Box>
 
       <Routes>
-        {/* 2. Envolva o elemento da rota que quer proteger com o ProtectedRoute */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
+        {/* 2. Adicione a nova rota dinâmica para os detalhes da música */}
+        <Route path="/music/:id" element={<ProtectedRoute><TrackDetailsPage /></ProtectedRoute>} />
       </Routes>
     </Container>
   );

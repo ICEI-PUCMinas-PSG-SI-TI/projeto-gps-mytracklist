@@ -56,8 +56,21 @@ export class ControllerFactory {
         details TEXT,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (admin_id) REFERENCES admins (id),
-        FOREIGN KEY (target_user_id) REFERENCES users (id)
+        FOREIGN KEY (target_user_id) REFERENCES users (id) ON DELETE SET NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS reviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER NOT NULL,
+        trackId TEXT NOT NULL,
+        rating INTEGER NOT NULL CHECK (rating >= 0 AND rating <= 10),
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
+        UNIQUE (userId, trackId)
       );
     `);
+    
+    console.log("Banco de dados inicializado com todas as tabelas.");
   }
 }

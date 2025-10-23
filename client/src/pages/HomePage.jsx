@@ -1,13 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importe o hook de navegação
 import { Typography, Box } from '@mui/material';
-import SearchBar from '../components/SearchBar'; // 1. Importe o novo componente
+import SearchBar from '../components/SearchBar';
 
 function HomePage() {
+  const navigate = useNavigate(); // 2. Inicialize o hook
 
   const handleSearch = (query) => {
-    // Numa tarefa futura, isto irá redirecionar para a página de resultados.
-    // Por agora, apenas exibimos a busca no console para confirmar que funciona.
-    console.log('A procurar por:', query);
+    // 3. Substitua o console.log por esta linha:
+    // Ela navega para a página de resultados, passando a busca como um parâmetro de URL.
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -18,11 +20,10 @@ function HomePage() {
       <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>
         Procure e avalie as suas músicas favoritas.
       </Typography>
-
-      {/* 2. Adicione a SearchBar */}
       <SearchBar onSearch={handleSearch} />
     </Box>
   );
 }
 
 export default HomePage;
+
