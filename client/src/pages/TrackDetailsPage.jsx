@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTrackDetails } from '../services/spotify';
+import { getUserReviewForTrack, saveReview } from '../services/reviews'; // 1. Importe os novos serviços
 import {
   Container,
   Typography,
@@ -8,43 +9,89 @@ import {
   CircularProgress,
   Alert,
   Paper,
-  Grid
+  Grid,
+  Snackbar // 2. Importe o Snackbar para feedback
 } from '@mui/material';
-import RatingInput from '../components/RatingInput'; // 1. Importe o novo componente
+import RatingInput from '../components/RatingInput';
 
 function TrackDetailsPage() {
-  const { id } = useParams();
+  const { id: trackId } = useParams(); // Renomeado para clareza
   const [track, setTrack] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // 2. Estado para guardar a avaliação (valor inicial nulo)
-  const [currentRating, setCurrentRating] = useState(null);
+  // Estados para a avaliação
+  const [currentReview, setCurrentReview] = useState(null); // Guarda o objeto da avaliação (com id)
+  const [isSubmitting, setIsSubmitting] = useState(false); // Para feedback visual
 
+  // Estado para o Snackbar de feedback
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+
+  // Efeito para buscar detalhes da música E a avaliação existente
   useEffect(() => {
-    const fetchDetails = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
         setError('');
-        const details = await getTrackDetails(id);
+        // Busca os detalhes da música e a avaliação em paralelo
+        const [details, review] = await Promise.all([
+          getTrackDetails(trackId),
+          getUserReviewForTrack(trackId)
+        ]);
         setTrack(details);
-        // Aqui, numa tarefa futura, vamos buscar a avaliação existente do utilizador
-        setCurrentRating(null); // Por agora, começa sempre como nulo
+        setCurrentReview(review); // Guarda a avaliação existente (pode ser null)
       } catch (err) {
-        setError('Falha ao carregar os detalhes da música.');
+        setError('Falha ao carregar os dados da música ou avaliação.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDetails();
-  }, [id]);
+    fetchData();
+  }, [trackId]); // Refaz a busca se o ID no URL mudar
 
-  const handleRatingChange = (newValue) => {
-    // Numa tarefa futura, isto irá enviar a avaliação para a API
-    console.log('Nova avaliação selecionada:', newValue);
-    setCurrentRating(newValue);
+  // Função chamada quando o utilizador clica nas estrelas
+  const handleRatingChange = async (newRating) => {
+    setIsSubmitting(true);
+    try {
+      const existingReviewId = currentReview ? currentReview.id : null;
+      const response = await saveReview(trackId, newRating, existingReviewId);
+
+      // Atualiza o estado local da avaliação após sucesso da API
+      setCurrentReview({
+        ...currentReview, // Mantém outros dados se houver
+        id: existingReviewId || response.reviewId, // Usa o ID existente ou o novo
+        rating: newRating,
+        trackId: trackId // Garante que temos o trackId
+      });
+
+      setSnackbarMessage('Avaliação salva com sucesso!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+
+    } catch (err) {
+      console.error('Falha ao salvar avaliação:', err);
+      let errorMessage = 'Falha ao salvar avaliação. Tente novamente.';
+      if (err.response && err.response.data && err.response.data.error) {
+        errorMessage = err.response.data.error;
+      }
+      setSnackbarMessage(errorMessage);
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
 
@@ -60,6 +107,9 @@ function TrackDetailsPage() {
     return <Typography>Música não encontrada.</Typography>;
   }
 
+  // Obtém a nota do estado 'currentReview' ou define como null se não houver
+  const displayRating = currentReview ? currentReview.rating : null;
+
   return (
     <Container>
       <Paper sx={{ p: 4, mt: 4 }}>
@@ -67,36 +117,40 @@ function TrackDetailsPage() {
           <Grid item xs={12} md={4}>
             <Box
               component="img"
-              sx={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: 2,
-              }}
+              sx={{ width: '100%', height: 'auto', borderRadius: 2 }}
               alt={track.name}
               src={track.imageUrl}
             />
           </Grid>
           <Grid item xs={12} md={8}>
-            <Typography variant="h3" component="h1" gutterBottom>
-              {track.name}
-            </Typography>
-            <Typography variant="h5" component="h2" color="text.secondary" gutterBottom>
-              {track.artist}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Álbum: {track.album}
-            </Typography>
+            <Typography variant="h3" component="h1" gutterBottom>{track.name}</Typography>
+            <Typography variant="h5" component="h2" color="text.secondary" gutterBottom>{track.artist}</Typography>
+            <Typography variant="body1" color="text.secondary">Álbum: {track.album}</Typography>
 
-            {/* 3. Adicione o componente de avaliação */}
+            {/* Componente de Avaliação */}
             <RatingInput
-              value={currentRating}
+              value={displayRating}
               onChange={handleRatingChange}
+              readOnly={isSubmitting} // Desativa enquanto envia
             />
+             {isSubmitting && <CircularProgress size={24} sx={{ ml: 2 }} />}
 
             {/* Adicionar mais detalhes aqui no futuro */}
           </Grid>
         </Grid>
       </Paper>
+
+      {/* Snackbar para feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
