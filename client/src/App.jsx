@@ -5,7 +5,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SearchResultsPage from './pages/SearchResultsPage';
-import TrackDetailsPage from './pages/TrackDetailsPage'; // 1. Importe a página de detalhes
+import TrackDetailsPage from './pages/TrackDetailsPage';
+import ProfilePage from './pages/ProfilePage'; // 1. Importe a nova página
 import { useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -33,6 +34,12 @@ function App() {
           <Button component={Link} to="/" sx={{ mr: 2 }}>
             Início
           </Button>
+          {/* 2. Adicione o link para o perfil APENAS se estiver autenticado */}
+          {isAuthenticated && (
+             <Button component={Link} to="/profile" sx={{ mr: 2 }}>
+                Meu Perfil
+             </Button>
+          )}
         </nav>
         <Box>
           {isAuthenticated ? (
@@ -62,8 +69,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
-        {/* 2. Adicione a nova rota dinâmica para os detalhes da música */}
         <Route path="/music/:id" element={<ProtectedRoute><TrackDetailsPage /></ProtectedRoute>} />
+        {/* 3. Adicione a nova rota para o perfil, protegida */}
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       </Routes>
     </Container>
   );

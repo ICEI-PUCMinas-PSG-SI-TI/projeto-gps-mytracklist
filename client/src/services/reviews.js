@@ -1,4 +1,4 @@
- import api from './api';
+import api from './api';
 
 /**
  * Obtém a avaliação de um utilizador para uma música específica.
@@ -35,4 +35,14 @@ export const saveReview = async (trackId, rating, existingReviewId = null) => {
   }
 };
 
-// Poderíamos adicionar aqui a função deleteReview se necessário no futuro
+/**
+ * Obtém todas as avaliações do utilizador autenticado.
+ * @returns {Promise<Array>} Uma promessa que resolve para um array de avaliações.
+ */
+export const getMyReviews = async () => {
+  const response = await api.get('/users/me/reviews');
+  return response.data;
+};
+
+// Não precisamos de 'export default' neste ficheiro, pois exportamos várias funções nomeadas.
+
