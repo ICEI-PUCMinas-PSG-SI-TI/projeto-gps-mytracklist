@@ -315,6 +315,17 @@ app.get('/api/v1/user/profile', requireAuth, (req: any, res: any) => {
   });
 });
 
+// Obter todas as avaliações do utilizador autenticado
+app.get('/api/v1/users/me/reviews', requireAuth, async (req: any, res: any) => {
+  const userId = req.session.userId;
+  const result = await userController.getUserReviews(userId);
+  if (result.success) {
+    res.json(result.reviews);
+  } else {
+    res.status(500).json({ error: result.message });
+  }
+});
+
 // Endpoints administrativos
 app.get('/api/v1/admin/users', requireAdminAuth, async (req: any, res: any) => {
   const page = parseInt(req.query.page) || 1;

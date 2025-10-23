@@ -51,4 +51,19 @@ export class UserController {
     return null;
   }
 }
+
+async getUserReviews(userId: number) {
+    try {
+      // Seleciona todas as colunas da tabela reviews para o utilizador especificado,
+      // ordenando pelas mais recentes primeiro.
+      const reviews = await this.db.all(
+        'SELECT id, trackId, rating, createdAt, updatedAt FROM reviews WHERE userId = ? ORDER BY createdAt DESC',
+        [userId]
+      );
+      return { success: true, reviews: reviews || [] };
+    } catch (error) {
+      console.error('Falha ao buscar avaliações do utilizador:', error);
+      return { success: false, message: 'Falha ao buscar avaliações.' };
+    }
+  }
 }
