@@ -44,5 +44,12 @@ export const getMyReviews = async () => {
   return response.data;
 };
 
-// Não precisamos de 'export default' neste ficheiro, pois exportamos várias funções nomeadas.
-
+/**
+ * Obtém as avaliações de um utilizador específico pelo seu nome de utilizador.
+ * @param {string} username O nome de utilizador.
+ * @returns {Promise<Object>} Um objeto contendo { user, reviews }.
+ */
+export const getUserReviewsByUsername = async (username) => {
+  const response = await api.get(`/users/${username}/reviews`);
+  return response.data;
+};

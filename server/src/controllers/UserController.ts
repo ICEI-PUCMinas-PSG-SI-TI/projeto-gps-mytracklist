@@ -1,61 +1,71 @@
-import * as argon2 from 'argon2';
 import { IDatabase } from '../interfaces/IDatabase';
+import bcrypt from 'bcryptjs';
 
 export class UserController {
   constructor(private db: IDatabase) {}
 
   async registerUser(username: string, password: string) {
     try {
-      const hashedPassword = await argon2.hash(password, {
-        type: argon2.argon2id,
-        memoryCost: 131072,
-        timeCost: 4,
-        parallelism: 2,
-        hashLength: 32
-      });
-
-      await this.db.run('INSERT INTO users (username, password_hash) VALUES (?, ?)', [username, hashedPassword]);
-      return { success: true };
-    } catch (error: any) {
-      if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-        return { success: false, message: 'Nome de usuário já existe.' };
+      const existingUser = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
+      if (existingUser) {
+        return { success: false, message: 'Nome de utilizador já existe' };
       }
-      return { success: false, message: 'Falha no registro.' };
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const result = await this.db.run(
+        'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+        [username, passwordHash]
+      );
+
+      return { success: true, userId: result.lastInsertRowid };
+    } catch (error) {
+      console.error('Erro ao registar utilizador:', error);
+      return { success: false, message: 'Falha ao registar utilizador' };
     }
   }
 
   async authenticateUser(username: string, password: string) {
     try {
-      const user = await this.db.get('SELECT id, password_hash FROM users WHERE username = ?', [username]);
+      const user = await this.db.get('SELECT * FROM users WHERE username = ?', [username]);
       if (!user) {
-        return { success: false, message: 'Nome de usuário ou senha inválidos.' };
+        return { success: false, message: 'Utilizador ou palavra-passe inválidos' };
       }
 
-      const isValidPassword = await argon2.verify(user.password_hash, password);
-      if (!isValidPassword) {
-        return { success: false, message: 'Nome de usuário ou senha inválidos.' };
+      const isMatch = await bcrypt.compare(password, user.password_hash);
+      if (isMatch) {
+        return { success: true, userId: user.id };
+      } else {
+        return { success: false, message: 'Utilizador ou palavra-passe inválidos' };
       }
-
-      return { success: true, userId: user.id };
     } catch (error) {
-      return { success: false, message: 'Falha na autenticação.' };
+      console.error('Erro ao autenticar utilizador:', error);
+      return { success: false, message: 'Falha na autenticação' };
     }
   }
 
   async getUserById(userId: number) {
-  try {
-    const user = await this.db.get('SELECT id, username FROM users WHERE id = ?', [userId]);
-    return user; // Retorna o utilizador encontrado ou null
-  } catch (error) {
-    console.error('Falha ao buscar utilizador por ID:', error);
-    return null;
-  }
-}
-
-async getUserReviews(userId: number) {
     try {
-      // Seleciona todas as colunas da tabela reviews para o utilizador especificado,
-      // ordenando pelas mais recentes primeiro.
+      const user = await this.db.get('SELECT id, username, created_at FROM users WHERE id = ?', [userId]);
+      return user || null;
+    } catch (error) {
+      console.error('Erro ao buscar utilizador:', error);
+      return null;
+    }
+  }
+
+  // --- SPRINT 4: Busca utilizador por nome (Perfil Público) ---
+  async getUserByUsername(username: string) {
+    try {
+      const user = await this.db.get('SELECT id, username, created_at FROM users WHERE username = ?', [username]);
+      return user || null;
+    } catch (error) {
+      console.error('Erro ao buscar utilizador por nome:', error);
+      return null;
+    }
+  }
+
+  async getUserReviews(userId: number) {
+    try {
       const reviews = await this.db.all(
         'SELECT id, trackId, rating, createdAt, updatedAt FROM reviews WHERE userId = ? ORDER BY createdAt DESC',
         [userId]

@@ -7,7 +7,7 @@ import crypto from 'crypto';
 import { ControllerFactory } from './factories/ControllerFactory';
 import { UserController } from './controllers/UserController';
 import { AdminController } from './controllers/AdminController';
-import { ReviewController } from './controllers/ReviewController'; 
+import { ReviewController } from './controllers/ReviewController';
 import { SpotifyService } from './services/SpotifyService';
 
 const app = express();
@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 // Controllers (serão inicializados após o banco de dados)
 let userController: UserController;
 let adminController: AdminController;
-let reviewController: ReviewController; 
+let reviewController: ReviewController;
 
 // Instanciar serviços
 const spotifyService = new SpotifyService();
@@ -128,7 +128,7 @@ async function startServer() {
     // Instâncias dos controllers (após inicialização do banco)
     userController = ControllerFactory.createUserController();
     adminController = ControllerFactory.createAdminController();
-    reviewController = ControllerFactory.createReviewController(); 
+    reviewController = ControllerFactory.createReviewController();
 
     // Inicia o servidor
     app.listen(PORT, () => {
@@ -143,6 +143,110 @@ async function startServer() {
 startServer();
 
 // ===========================================
+// ROTAS DE AUTENTICAÇÃO
+// ===========================================
+
+app.post('/api/v1/auth/register', async (req: any, res: any) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Nome de usuário e senha são obrigatórios' });
+  }
+
+  if (username.length < 3 || password.length < 6) {
+    return res.status(400).json({ error: 'Nome de usuário deve ter pelo menos 3 caracteres e senha pelo menos 6 caracteres' });
+  }
+
+  const result = await userController.registerUser(username, password);
+  if (result.success) {
+    res.status(201).json({ message: 'Usuário registrado com sucesso' });
+  } else {
+    res.status(400).json({ error: result.message });
+  }
+});
+
+app.post('/api/v1/auth/login', async (req: any, res: any) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Nome de usuário e senha são obrigatórios' });
+  }
+
+  const result = await userController.authenticateUser(username, password);
+  if (result.success) {
+    const sessionId = crypto.randomUUID();
+    req.session.sessionId = sessionId;
+    req.session.userId = result.userId;
+    res.json({ message: 'Login realizado com sucesso', sessionId });
+  } else {
+    res.status(401).json({ error: result.message });
+  }
+});
+
+app.post('/api/v1/auth/logout', (req: any, res: any) => {
+  req.session.destroy((err: any) => {
+    if (err) {
+      return res.status(500).json({ error: 'Não foi possível fazer logout' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logout realizado com sucesso' });
+  });
+});
+
+// Rota para verificar a sessão atual do utilizador
+app.get('/api/v1/auth/me', requireAuth, async (req: any, res: any) => {
+  try {
+    const user = await userController.getUserById(req.session.userId);
+    if (user) {
+      res.json({ id: user.id, username: user.username });
+    } else {
+      res.status(404).json({ error: 'Utilizador não encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// ===========================================
+// ROTAS DE UTILIZADORES
+// ===========================================
+
+// Obter todas as avaliações do utilizador autenticado (Meu Perfil)
+app.get('/api/v1/users/me/reviews', requireAuth, async (req: any, res: any) => {
+  const userId = req.session.userId;
+  const result = await userController.getUserReviews(userId);
+  if (result.success) {
+    res.json(result.reviews);
+  } else {
+    res.status(500).json({ error: result.message });
+  }
+});
+
+// ROTA DE PERFIL PÚBLICO (Nova Rota)
+app.get('/api/v1/users/:username/reviews', requireAuth, async (req: any, res: any) => {
+  const { username } = req.params;
+
+  // 1. Encontrar o utilizador pelo nome
+  const targetUser = await userController.getUserByUsername(username);
+  
+  if (!targetUser) {
+    return res.status(404).json({ error: 'Utilizador não encontrado.' });
+  }
+
+  // 2. Buscar as avaliações desse utilizador
+  const result = await userController.getUserReviews(targetUser.id);
+  
+  if (result.success) {
+    res.json({
+        user: { id: targetUser.id, username: targetUser.username },
+        reviews: result.reviews
+    });
+  } else {
+    res.status(500).json({ error: result.message });
+  }
+});
+
+// ===========================================
 // ROTAS DE AVALIAÇÕES (REVIEWS)
 // ===========================================
 
@@ -153,7 +257,7 @@ app.get('/api/v1/reviews/:trackId', requireAuth, async (req: any, res: any) => {
 
   const result = await reviewController.getReviewForTrack(userId, trackId);
   if (result.success) {
-    res.json(result.review); // Retorna a avaliação ou null
+    res.json(result.review);
   } else {
     res.status(500).json({ error: result.message });
   }
@@ -206,77 +310,45 @@ app.delete('/api/v1/reviews/:reviewId', requireAuth, async (req: any, res: any) 
     res.status(400).json({ error: result.message });
   }
 });
+
 // ===========================================
-// FIM DAS ROTAS DE AVALIAÇÕES
+// ROTAS DO SPOTIFY
 // ===========================================
 
+// Rota de teste do token do Spotify (Busca)
+app.get('/api/v1/spotify/search', requireAuth, async (req: any, res: any) => {
+  const { q } = req.query;
 
-// Rotas da API
-app.post('/api/v1/auth/register', async (req: any, res: any) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Nome de usuário e senha são obrigatórios' });
+  if (!q) {
+    return res.status(400).json({ error: 'O parâmetro de busca "q" é obrigatório.' });
   }
 
-  if (username.length < 3 || password.length < 6) {
-    return res.status(400).json({ error: 'Nome de usuário deve ter pelo menos 3 caracteres e senha pelo menos 6 caracteres' });
-  }
-
-  const result = await userController.registerUser(username, password);
-  if (result.success) {
-    res.status(201).json({ message: 'Usuário registrado com sucesso' });
-  } else {
-    res.status(400).json({ error: result.message });
-  }
-});
-
-app.post('/api/v1/auth/login', async (req: any, res: any) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Nome de usuário e senha são obrigatórios' });
-  }
-
-  const result = await userController.authenticateUser(username, password);
-  if (result.success) {
-    const sessionId = crypto.randomUUID();
-    req.session.sessionId = sessionId;
-    req.session.userId = result.userId;
-    res.json({ message: 'Login realizado com sucesso', sessionId });
-  } else {
-    res.status(401).json({ error: result.message });
-  }
-});
-
-app.post('/api/v1/auth/logout', (req: any, res: any) => {
-  req.session.destroy((err: any) => {
-    if (err) {
-      return res.status(500).json({ error: 'Não foi possível fazer logout' });
-    }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Logout realizado com sucesso' });
-  });
-});
-
-// Rota para verificar a sessão atual do utilizador
-app.get('/api/v1/auth/me', requireAuth, async (req: any, res: any) => {
-  // A função requireAuth já garante que temos um req.session.userId
-  // Agora, vamos buscar as informações do utilizador para retornar
   try {
-    const user = await userController.getUserById(req.session.userId);
-    if (user) {
-      // Retornamos apenas os dados seguros (sem a hash da palavra-passe)
-      res.json({ id: user.id, username: user.username });
-    } else {
-      res.status(404).json({ error: 'Utilizador não encontrado' });
-    }
+    const results = await spotifyService.searchTracks(q as string);
+    res.json(results);
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    console.error('Erro na rota de busca do Spotify:', error);
+    res.status(500).json({ error: 'Erro ao comunicar com o Spotify.' });
   }
 });
 
-// Login de administrador
+// Rota para obter detalhes de uma música específica
+app.get('/api/v1/spotify/tracks/:id', requireAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+
+  try {
+    const trackDetails = await spotifyService.getTrackDetails(id);
+    res.json(trackDetails);
+  } catch (error) {
+    console.error(`Erro na rota de detalhes da música ${id}:`, error);
+    res.status(500).json({ error: 'Erro ao obter detalhes da música.' });
+  }
+});
+
+// ===========================================
+// ROTAS DE ADMIN
+// ===========================================
+
 app.post('/api/v1/admin/login', async (req: any, res: any) => {
   const { username, password } = req.body;
 
@@ -295,7 +367,6 @@ app.post('/api/v1/admin/login', async (req: any, res: any) => {
   }
 });
 
-// Logout de administrador
 app.post('/api/v1/admin/logout', (req: any, res: any) => {
   req.session.destroy((err: any) => {
     if (err) {
@@ -306,27 +377,6 @@ app.post('/api/v1/admin/logout', (req: any, res: any) => {
   });
 });
 
-// Exemplo de rota protegida
-app.get('/api/v1/user/profile', requireAuth, (req: any, res: any) => {
-  res.json({
-    message: 'Bem-vindo ao seu perfil!',
-    userId: req.session.userId,
-    sessionId: req.session.sessionId
-  });
-});
-
-// Obter todas as avaliações do utilizador autenticado
-app.get('/api/v1/users/me/reviews', requireAuth, async (req: any, res: any) => {
-  const userId = req.session.userId;
-  const result = await userController.getUserReviews(userId);
-  if (result.success) {
-    res.json(result.reviews);
-  } else {
-    res.status(500).json({ error: result.message });
-  }
-});
-
-// Endpoints administrativos
 app.get('/api/v1/admin/users', requireAdminAuth, async (req: any, res: any) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -390,45 +440,3 @@ app.get('/api/v1/admin/users/hashes', requireAdminAuth, async (req: any, res: an
     res.status(500).json({ error: result.message });
   }
 });
-
-// Rota temporária para testar a obtenção do token
-// http://localhost:3000/api/v1/spotify/test-token
-app.get('/api/v1/spotify/test-token', async (req: any, res: any) => {
-    try {
-        const token = await spotifyService.getAccessToken();
-        res.json({ message: 'Token obtido com sucesso!', accessToken: token });
-    } catch (error) {
-        res.status(500).json({ error: 'Falha ao obter o token do Spotify.' });
-    }
-});
-
-// rota de teste do token do Spotify
-app.get('/api/v1/spotify/search', requireAuth, async (req: any, res: any) => {
-  const { q } = req.query; // 'q' vem de "query" (busca)
-
-  if (!q) {
-    return res.status(400).json({ error: 'O parâmetro de busca "q" é obrigatório.' });
-  }
-
-  try {
-    const results = await spotifyService.searchTracks(q as string);
-    res.json(results);
-  } catch (error) {
-    console.error('Erro na rota de busca do Spotify:', error);
-    res.status(500).json({ error: 'Erro ao comunicar com o Spotify.' });
-  }
-});
-
-// nova rota para obter detalhes de uma música específica
-app.get('/api/v1/spotify/tracks/:id', requireAuth, async (req: any, res: any) => {
-  const { id } = req.params;
-
-  try {
-    const trackDetails = await spotifyService.getTrackDetails(id);
-    res.json(trackDetails);
-  } catch (error) {
-    console.error(`Erro na rota de detalhes da música ${id}:`, error);
-    res.status(500).json({ error: 'Erro ao obter detalhes da música.' });
-  }
-});
-

@@ -6,7 +6,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import TrackDetailsPage from './pages/TrackDetailsPage';
-import ProfilePage from './pages/ProfilePage'; // 1. Importe a nova página
+import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage'; // Nova Importação
 import { useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -34,7 +35,6 @@ function App() {
           <Button component={Link} to="/" sx={{ mr: 2 }}>
             Início
           </Button>
-          {/* 2. Adicione o link para o perfil APENAS se estiver autenticado */}
           {isAuthenticated && (
              <Button component={Link} to="/profile" sx={{ mr: 2 }}>
                 Meu Perfil
@@ -70,12 +70,12 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
         <Route path="/music/:id" element={<ProtectedRoute><TrackDetailsPage /></ProtectedRoute>} />
-        {/* 3. Adicione a nova rota para o perfil, protegida */}
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        {/* Nova Rota para Perfil Público */}
+        <Route path="/user/:username" element={<ProtectedRoute><PublicProfilePage /></ProtectedRoute>} />
       </Routes>
     </Container>
   );
 }
 
 export default App;
-
