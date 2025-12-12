@@ -28,7 +28,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@types/bcryptjs": "^3.0.0",
+    "@types/bcryptjs": "^2.4.6",
     "argon2": "^0.40.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
