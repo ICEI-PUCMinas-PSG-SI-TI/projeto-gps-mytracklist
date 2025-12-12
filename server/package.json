@@ -1,0 +1,44 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "bun --watch src/index.ts",
+    "test": "bun test",
+    "admin:register-admin": "bun scripts/admin/register-admin.ts",
+    "admin:register-user": "bun scripts/admin/register-user.ts",
+    "admin:list-users": "bun scripts/admin/list-users.ts",
+    "admin:manage-users": "bun scripts/admin/manage-users.ts",
+    "admin:show-hashes": "bun scripts/admin/show-hashes.ts",
+    "admin": "echo 'Comandos disponíveis: register-admin, register-user, list-users, manage-users, show-hashes'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/bun": "^1.2.21",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "argon2": "^0.40.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "private": true
+}

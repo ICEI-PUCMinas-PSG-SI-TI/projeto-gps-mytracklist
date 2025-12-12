@@ -1,0 +1,6 @@
+# Ignorar dependências e arquivos de ambiente
+node_modules/
+.env
+
+# Arquivo do banco de dados SQLite
+database.sqlite

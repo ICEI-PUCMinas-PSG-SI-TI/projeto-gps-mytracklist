@@ -1,0 +1,44 @@
+{
+  // Visite https://aka.ms/tsconfig para obter mais informações sobre este arquivo
+  "compilerOptions": {
+    // Layout dos arquivos
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Configurações do ambiente
+    // Consulte também https://aka.ms/tsconfig/module
+    "module": "commonjs",
+    "target": "ES2020", // Atualizado para ES2020 para melhor suporte no Node.js moderno
+    "types": ["node", "bun"],
+
+    // Outras saídas
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Opções de verificação de tipos mais rigorosas
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Opções de estilo
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Opções recomendadas
+    "strict": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+
+    // Compatibilidade nativa com módulos CommonJS
+    "esModuleInterop": true
+  },
+
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"] // Adicionado exclusão de testes
+}

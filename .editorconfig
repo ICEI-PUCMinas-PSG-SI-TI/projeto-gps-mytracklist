@@ -1,0 +1,17 @@
+# EditorConfig é útil para manter estilos de codificação consistentes entre
+# diferentes editores e IDEs Mais informações em https://editorconfig.org
+
+# Indica que este é o arquivo EditorConfig raiz e que as configurações não
+# devem ser herdadas de arquivos superiores
+root = true
+
+# Definições gerais para todos os arquivos
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{js,ts,json,jsonc}]
+indent_style = space
+indent_size = 2
