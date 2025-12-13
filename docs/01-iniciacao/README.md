@@ -41,103 +41,89 @@
 
 ## Problema
 
->Atualmente, o consumo de música digital está extremamente fragmentado entre a "audição" e a "interação". Embora serviços de streaming como o Spotify e Apple Music ofereçam acesso a bibliotecas musicais vastas e algoritmos de recomendação eficientes, eles falham em proporcionar um espaço dedicado para o registro crítico e pessoal da jornada musical do utilizador.
->
->Os entusiastas de música enfrentam as seguintes dificuldades:
->
->- Falta de Catalogação Pessoal: Não existe uma ferramenta consolidada e popular (semelhante ao Letterboxd para filmes ou Goodreads para livros) que permita aos utilizadores manter um diário de faixas ouvidas, atribuindo notas e registrando opiniões pessoais de forma organizada.
->
-> - Experiência Social Limitada: As funcionalidades sociais nas plataformas de streaming são muitas vezes secundárias ou pouco intuitivas. É difícil para um utilizador saber o que os seus amigos estão realmente a ouvir e, mais importante, o que eles acham dessas músicas, sem recorrer a redes sociais genéricas (Twitter/Instagram) onde o contexto musical se perde.
->
-> - Descoberta Passiva vs. Ativa: A descoberta de novas músicas tornou-se um processo passivo, dependente de algoritmos. Falta um ambiente onde a descoberta seja impulsionada ativamente pela curadoria humana e pelas recomendações da comunidade ou círculo de amigos do utilizador.
->
-> Em resumo, existe uma lacuna no mercado para uma plataforma que transforme o ato solitário de ouvir música numa experiência de catalogação social e partilha de gostos.
+Atualmente, o consumo de música digital está extremamente fragmentado entre a "audição" e a "interação". Embora serviços de streaming como o Spotify e Apple Music ofereçam acesso a bibliotecas musicais vastas e algoritmos de recomendação eficientes, eles falham em proporcionar um espaço dedicado para o registro crítico e pessoal da jornada musical do utilizador.
+
+Os entusiastas de música enfrentam as seguintes dificuldades:
+
+- **Falta de Catalogação Pessoal:** Não existe uma ferramenta consolidada e popular (semelhante ao Letterboxd para filmes ou Goodreads para livros) que permita aos utilizadores manter um diário de faixas ouvidas, atribuindo notas e registrando opiniões pessoais de forma organizada.
+
+- **Experiência Social Limitada:** As funcionalidades sociais nas plataformas de streaming são muitas vezes secundárias ou pouco intuitivas. É difícil para um utilizador saber o que os seus amigos estão realmente a ouvir e, mais importante, o que eles acham dessas músicas, sem recorrer a redes sociais genéricas (Twitter/Instagram) onde o contexto musical se perde.
+
+- **Descoberta Passiva vs. Ativa:** A descoberta de novas músicas tornou-se um processo passivo, dependente de algoritmos. Falta um ambiente onde a descoberta seja impulsionada ativamente pela curadoria humana e pelas recomendações da comunidade ou círculo de amigos do utilizador.
+
+Em resumo, existe uma lacuna no mercado para uma plataforma que transforme o ato solitário de ouvir música numa experiência de catalogação social e partilha de gostos.
 
 ## Objetivos
 
->Objetivo Geral
->
->Desenvolver uma plataforma web social integrada com a API do Spotify que permita aos usuários catalogar seu histórico musical, atribuir avaliações críticas e compartilhar descobertas com uma comunidade de ouvintes.
->
->Objetivos Específicos
->
->- Implementar um sistema de diário musical: Criar uma funcionalidade que permita aos usuários registrar músicas ouvidas, atribuir notas (0-10) e organizar essas avaliações em um perfil pessoal acessível.
->
-> - Facilitar a descoberta social: Desenvolver perfis públicos pesquisáveis onde usuários podem visualizar e explorar as coleções e avaliações de outros membros da comunidade para descobrir novas músicas.
->
-> - Centralizar a gestão de preferências: Oferecer uma interface unificada onde o usuário possa visualizar estatísticas básicas de suas avaliações e gerenciar suas faixas favoritas sem depender exclusivamente dos algoritmos de streaming.
->
-> - Garantir a integridade e segurança dos dados: Implementar um sistema robusto de autenticação e autorização para proteger as contas dos usuários e garantir que apenas o autor possa editar ou excluir suas próprias avaliações.
+#### Objetivo Geral
+
+Desenvolver uma plataforma web social integrada com a API do Spotify que permita aos usuários catalogar seu histórico musical, atribuir avaliações críticas e compartilhar descobertas com uma comunidade de ouvintes.
+
+#### Objetivos Específicos
+
+- **Implementar um sistema de diário musical:** Criar uma funcionalidade que permita aos usuários registrar músicas ouvidas, atribuir notas (0-10) e organizar essas avaliações em um perfil pessoal acessível.
+
+- **Facilitar a descoberta social:** Desenvolver perfis públicos pesquisáveis onde usuários podem visualizar e explorar as coleções e avaliações de outros membros da comunidade para descobrir novas músicas.
+
+- **Centralizar a gestão de preferências:** Oferecer uma interface unificada onde o usuário possa visualizar estatísticas básicas de suas avaliações e gerenciar suas faixas favoritas sem depender exclusivamente dos algoritmos de streaming.
+
+- **Garantir a integridade e segurança dos dados:** Implementar um sistema robusto de autenticação e autorização para proteger as contas dos usuários e garantir que apenas o autor possa editar ou excluir suas próprias avaliações.
 
 
 ## Justificativa
 
-......  COLOQUE AQUI O SEU TEXTO ......
+A construção do MyTrackList justifica-se pela oportunidade de preencher uma lacuna significativa no ecossistema de consumo musical digital. Enquanto as plataformas de streaming focam na distribuição massiva de conteúdo, existe uma demanda reprimida por ferramentas que permitam a curadoria pessoal e a interação social qualificada em torno da música.
 
-> Aqui você deve descrever os benefícios esperados pela construção do projeto.
-> As justificativas do projeto explicam as razões e a necessidade da iniciativa.
-> Elas demonstram como o projeto atende a uma demanda específica, resolve um problema ou aproveita uma oportunidade identificada.
-> Além disso, definem os benefícios esperados e o impacto previsto para a organização ou a comunidade. 
+#### Benefícios Esperados
+
+- **Engajamento Cultural:** O projeto promove uma cultura de apreciação ativa da música, incentivando os utilizadores a não apenas consumir, mas a refletir e opinar sobre o que ouvem.
+
+- **Fortalecimento de Comunidade:** Ao facilitar a visualização dos perfis e avaliações de outros utilizadores, a plataforma cria um ambiente propício para a formação de comunidades baseadas em afinidades musicais reais, superando as interações superficiais das redes sociais genéricas.
+
+- **Organização Pessoal:** Para o utilizador individual, o sistema oferece o benefício tangível de organizar a sua "memória musical", permitindo um registo histórico da sua evolução de gostos e descobertas ao longo do tempo.
+
+#### Impacto
+
+O impacto previsto é a criação de um nicho social vibrante onde a descoberta de música é impulsionada por pessoas e não apenas por algoritmos. Para a organização (equipa de projeto), o desenvolvimento deste software demonstra a capacidade técnica de integrar APIs complexas (Spotify), gerir autenticação segura e entregar uma experiência de utilizador (UX) moderna e responsiva, servindo como um portefólio robusto de competências Full Stack.
 
 ## Critérios de Sucesso
 
-......  COLOQUE AQUI O SEU TEXTO ......
+O êxito do projeto MyTrackList será avaliado com base no cumprimento dos seguintes critérios, que abrangem as dimensões de prazo, qualidade, escopo e satisfação das partes interessadas:
 
-> Os critérios de sucesso indicam uma forma avaliar o êxito do trabalho e analisar se o projeto realmente alcançou os objetivos estabelecidos. 
-> Esses critérios geralmente abrangem diversas dimensões, incluindo a entrega dentro do prazo e orçamento estipulados, a satisfação do cliente, a qualidade do produto ou serviço final, e a eficiência na utilização de recursos. 
-> Além disso, a capacidade de atender aos requisitos e expectativas das partes interessadas, bem como a gestão eficaz de riscos, são considerados aspectos importantes para determinar o sucesso de um projeto. 
+- **Entrega do MVP Funcional:** O sistema deve estar implantado (deploy realizado) e acessível publicamente até o final do cronograma académico, com todas as funcionalidades críticas (Autenticação, Busca Spotify, Avaliação, Perfis) operacionais.
+
+- **Qualidade do Software:** A aplicação deve apresentar estabilidade em ambiente de produção, sem erros críticos ("bugs" impeditivos) nos fluxos principais de uso e com uma interface responsiva que se adapte a dispositivos móveis e desktop.
+
+- **Aderência ao Orçamento:** O projeto deve ser concluído utilizando apenas os recursos gratuitos ou de baixo custo previstos no plano de aquisições (ex: serviços de hospedagem free tier), sem exceder a verba estipulada para a infraestrutura.
+
+- **Satisfação das Partes Interessadas:** Aprovação formal do produto final pelo Professor/Orientador (Cliente), validando que a solução atende aos requisitos pedagógicos e técnicos definidos no início do semestre.
+
+- **Segurança e Conformidade:** O sistema deve garantir a proteção dos dados dos utilizadores (palavras-passe encriptadas) e respeitar os termos de uso da API pública do Spotify.
 
 # Partes Interessadas
 
-> Relacione as partes interessadas no seu projeto. 
-> Você deve descrever as partes interessadas e indicar qual o nível de influência em relação ao projeto.
-> Indique as principais pessoas (clientes, fornecedores, etc), indicando possíveis expectativas, nível de influência e possível importância para o sucesso do projeto.
-
-> Você pode utilizar como referência o seguinte documento:
-> [Registro de Partes Interessadas](artefatos/registro-partes-interessadas.xlsx)
+A identificação e gestão das partes interessadas (stakeholders) é crucial para o alinhamento de expectativas e o sucesso do projeto. Abaixo, relacionamos os principais envolvidos, suas responsabilidades e níveis de influência.
 
 ## Identificação das Partes Interessadas
 
 | Nome            | Posição / Cargo | Papel Projeto | E-mail      | Telefone    |
 |-----------------|-----------------|---------------|-------------|-------------|
+|Bruna de Paula Anselmi                |Desenvolvedor Front-end + UX/UIDesigner                 |Criar a cara do site e dar vida a ele no navegador (front-end).          |bruanselmii@gmail.com             |(31) 98763-7769             |
+|Cauã Diniz Armani                 |Product Owner (PO) + QA/Testador                 |Definir prioridades do produto e garantir sua qualidade com testes.               |cauaarmani@icloud.com            |(31) 99840-0306             |
+|David Nunes Ribeiro                 |Scrum Master (SM) + Tech Lead + GP                 |Guiar o time, alinhar processos ágeis e liderar a parte técnica do projeto.               |ddnr03@gmail.com             |(31) 98618-2459            |
+|Lucca Pellegrini                 |Desenvolvedor Back-end                 |Construir a lógica e o funcionamento interno do sistema.               |lucca@verticordia.com             |(31) 99222-4189             |
 |                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-|                 |                 |               |             |             |
-
-> Opções de identificação dos stakeholders:
-> - Nome: nome da parte interessada (inclui funcionários da empresa e do cliente)
-> - Posição / Cargo: Identificação do cargo da parte interessada
-> - - Ex.: Gerente de TI, Funcionário da Linha de Produção, Presidente, Analista de Sistema do Cliente, Desenvolvedor, etc.
-> - Papel no Projeto: Papel da pessoa no projeto
-> - - Ex.: Desenvolvedor, Analista de Requisitos, Analista de Testes, Product Owner, etc.
-> - E-mail: E-mail do Stakeholder (*não utilizar informações pessoais*)
-> - Telefone: Telefone do Stakeholder, incluindo WhatsApp (*não utilizar informações pessoais*)
 
 ## Avaliação das Partes Interessadas
 
 | Nome            | Expectativa no Projeto | Influência    | Importância / Poder | Apoio       | Observações   |
 |-----------------|------------------------|---------------|---------------------|-------------|---------------|
+|Bruna de Paula Anselmi                 |A expectativa é que o site funcione corretamente e seja inovador.                        |Média               |Média                     |Apoiador             |-               |
+|Cauã Diniz Armani                 |Que o site seja divertido, funcional e popular.                        |Alta               |Média                     |Apoiador             |-               |
+|David Nunes Ribeiro                 |Que o projeto se torne bastante popular e bastante utilizável, igual o Letterboxd.                        |Alta               |Alta                     |Apoiador             |Sempre gostei de sites como Letterboxd e MyAnimeList, porém sempre senti a falta de um site para avaliar minhas músicas.               |
+| Lucca Pellegrini                |Que tenha um lucro extraordinário e que os usuários gostem e preencham uma lacuna no mercado.                        |Baixa               |Alta                     |Apoiador             |-               |
 |                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-|                 |                        |               |                     |             |               |
-
-> Opções de avaliação:
-> - Expectativa: descrição da expectativa da parte interessada no projeto.
-> - - Ex.: Diminuição do tempo de realização das tarefas, aumento da produtividade, aumento da satisfação do cliente, etc.
-> - Influência: Alta, Média, Baixa
-> - Importância: Alta, Média, Baixa
-> - Apoio: Positivo, Negativo, Neutro
-> - Observações: Informações adicionais, para o cliente.
+                
 
 ```diff
 + Tarefa 01
@@ -146,165 +132,165 @@
 
 
 -----
+
+
+# Termo de Abertura do Projeto
+
 ```diff
 + Tarefa 02
 + Termo de Abertura do Projeto
 ```
 
-# Termo de Abertura do Projeto
-
-> O Termo de Abertura do Projeto (TAP) representa o ponto de partida oficial para o empreendimento. 
-> Ele sintetiza de maneira clara e concisa os objetivos, escopo, partes interessadas envolvidas, entregas esperadas, cronograma preliminar e recursos necessários para a execução bem-sucedida do projeto. 
-> O TAP funciona como um contrato inicial entre a equipe do projeto e as partes interessadas, estabelecendo as bases para uma compreensão compartilhada dos propósitos e limites do projeto. 
-> Ao delinear esses elementos de forma detalhada, o Termo de Abertura do Projeto (TAP) fornece uma direção sólida para orientar as atividades subsequentes, facilitando a gestão eficaz do projeto desde o início até o encerramento. 
-> Essa documentação garante a clareza, alinhamento e comprometimento de todos os envolvidos, contribuindo assim para o sucesso do projeto.
-
-> Você pode utilizar como referência o seguinte documento:
-> [Termo de Abertura do Projeto](artefatos/termo-abertura-projeto.docx)
-
 ## Estimativa de Custo
 
-......  COLOQUE AQUI O SEU TEXTO ......
+A avaliação da viabilidade econômica do projeto MyTrackList baseia-se na análise detalhada dos investimentos necessários para o seu desenvolvimento e operação inicial. A estimativa de custos considera os recursos humanos, a infraestrutura tecnológica e os serviços de apoio, totalizando um investimento previsto de **R$ 18.100,00** para um esforço de **235 horas**.
 
-> A avaliação da viabilidade econômica busca determinar a sustentabilidade financeira e o retorno sobre o investimento do empreendimento. 
-> Este processo envolve a análise dos custos associados ao projeto, incluindo investimentos iniciais, despesas operacionais e potenciais custos de manutenção. 
-> Simultaneamente, são examinados os benefícios esperados, como receitas, economias de custos e ganhos tangíveis e intangíveis. 
-> A elaboração de projeções financeiras realistas e a aplicação de métricas como o Valor Presente Líquido (VPL) e a Taxa Interna de Retorno (TIR) contribuem para uma avaliação abrangente da viabilidade econômica do projeto. 
-> Este processo permite que os gestores de projeto e as partes interessadas tomem decisões informadas sobre a continuidade, ajustes ou mesmo a interrupção do projeto, garantindo uma alocação eficiente de recursos e maximizando os benefícios econômicos esperados.
+A alocação de recursos reflete a natureza de desenvolvimento de software, onde o capital intelectual representa a maior parcela do orçamento (aproximadamente 76%), seguido pelos custos de hardware e infraestrutura. A utilização da API do Spotify como recurso gratuito é um fator chave para a viabilidade operacional do MVP.
 
-......  ATUALIZE OS ITENS DE CUSTO DO SISTEMA. ADICIONE NOVOS OU SUBDIVIDA ITENS, CASO NECESSÁRIO ......
+A composição destes custos está detalhada abaixo:
 
-| Item de Custo           | Descrição | Qtd. horas | Valor / hora | Valor total |
-|-------------------------|-----------|------------|--------------|-------------|
-| Recursos Humanos        |           |            |              |             |
-| Hardware                |           |            |              |             |
-| Serviços de Rede        |           |            |              |             |
-| Hospedagem e Nuvem      |           |            |              |             |
-| Software de terceiros   |           |            |              |             |
-| Serviços e treinamento  |           |            |              |             |
-| **Total Geral**         |           |            |              |             |
+| Item de Custo | Descrição | Qtd. horas | Valor / hora | Valor total |
+| :--- | :--- | :---: | :---: | :---: |
+| **Recursos Humanos** | Scrum Master (SM) + Tech Lead + GP | 70 | R$ 70,00 | R$ 4.900,00 |
+| | Product Owner (PO) + QA/Testador | 40 | R$ 60,00 | R$ 2.400,00 |
+| | Desenvolvedor Front-end + UX/UI Designer | 70 | R$ 50,00 | R$ 3.500,00 |
+| | Desenvolvedor Back-end | 50 | R$ 60,00 | R$ 3.000,00 |
+| **Hardware** | Computadores, periféricos | - | - | R$ 3.000,00 |
+| **Serviços de Rede** | Rede e serviços de hospedagem | - | - | R$ 800,00 |
+| **Hospedagem e Nuvem** | (Incluído em serviços de rede acima) | - | - | - |
+| **Software de terceiros** | API Spotify | - | - | R$ 0,00 |
+| **Serviços e treinamento** | Cursos, workshops, documentação | 5 | R$ 100,00 | R$ 500,00 |
+| **Total Geral** | | **235** | **R$ 230,00** | **R$ 18.100,00** |
 
+#### 1. Recursos Humanos (Desenvolvimento)
+A maior parcela do orçamento é destinada ao capital intelectual, refletindo a natureza de projetos de software onde o esforço de desenvolvimento é o principal ativo.
+
+- **Investimento:** R$ 13.800,00 (Aprox. 76% do total).
+
+- **Detalhamento:**
+
+  - Gestão e Liderança Técnica (Scrum Master/GP): R$ 4.900,00.
+
+  - Front-end e UX/UI: R$ 3.500,00.
+
+  - Back-end: R$ 3.000,00.
+
+  - Qualidade e Produto (PO/QA): R$ 2.400,00.
+
+#### 2. Infraestrutura e Hardware
+Custos associados aos equipamentos necessários para os desenvolvedores e à infraestrutura de rede para hospedar e testar a aplicação.
+
+- **Investimento:** R$ 3.800,00.
+
+- **Detalhamento:**
+
+  - Hardware (Computadores e periféricos): R$ 3.000,00.
+
+  - Rede e serviços de hospedagem: R$ 800,00.
+
+#### 3. Capacitação
+Investimento na qualificação da equipe através de cursos, workshops ou documentação técnica necessária.
+
+- **Investimento:** R$ 500,00.
+
+#### 4. Recursos Gratuitos (Economia de Custos) 
+Um ponto positivo para a viabilidade do projeto é a utilização da API do Spotify. Sendo um software de terceiros essencial para o funcionamento do sistema, o seu custo de utilização é **R$ 0,00** (considerando o uso dentro dos limites gratuitos para desenvolvedores), o que reduz significativamente o custo operacional inicial.
+
+#### Conclusão da Viabilidade
+A estimativa aponta para um projeto de baixo custo relativo para o desenvolvimento de um novo produto digital (MVP). A concentração de custos em recursos humanos indica que o sucesso do projeto depende diretamente da produtividade e eficiência da equipe técnica, enquanto a infraestrutura enxuta e o uso de APIs gratuitas contribuem para um retorno sobre o investimento (ROI) potencialmente mais rápido após o lançamento.
 
 ## Estimativa de Prazo
 
-......  COLOQUE AQUI O SEU TEXTO ......
+A estimativa de prazo do projeto MyTrackList foi estabelecida para orientar tanto o cliente quanto a equipe de desenvolvimento sobre o tempo estritamente necessário para a conclusão de todo o escopo. Esta projeção permite a criação de um cronograma realista e viável, fundamentando o planejamento adequado das Sprints, a alocação eficiente dos recursos de desenvolvimento e a antecipação de eventuais desafios técnicos. Esta definição precisa guia a execução do projeto, alinhando expectativas e estabelecendo metas alcançáveis para a entrega do MVP.
 
-> A estimativa de prazo orienta tanto o cliente quanto a equipe de desenvolvimento do projeto em termos do tempo necessário para a conclusão do projeto como um todo. 
-> Esta estimativa possibilita a criação de um cronograma realista e viável, permitindo o planejamento adequado das fases do projeto, alocação de recursos de maneira eficiente e antecipação de eventuais desafios.
-> Uma estimativa precisa orienta a execução do projeto, contribui para a gestão de expectativas e para o estabelecimento de metas alcançáveis.
-
-> Indique:
-> * Prazo previsto (em horas) 
-> * Data de início
-> * Data de término
-
-* Prazo previsto (em horas): XX horas
-* Data de início: __ / __ / _____
-* Data de término: __ / __ / _____
+* **Prazo previsto (em horas):** 204 horas
+* **Data de início:** 08 / 09 / 2025
+* **Data de término:** 12 / 12 / 2025
 
 ## Escopo Preliminar e Premissas
 
-> Os requisitos preliminares fornecem uma visão inicial do escopo, funcionalidades-chave e as expectativas a serem atendidas. 
-> 
-> ***A quantidade mínima de requisitos a serem preenchidos nas seções abaixo não incluem os exemplos previamente fornecidos.***
+O escopo do MyTrackList foca na criação de uma plataforma web social para catalogação musical. O projeto baseia-se na premissa de que a API do Spotify permanecerá gratuita e acessível para desenvolvedores e que a equipe utilizará exclusivamente tecnologias de código aberto e serviços de hospedagem gratuitos.
 
 ## Declaração de Escopo
 
-> Você pode utilizar como referência o seguinte documento:
-- [Declaração de Escopo](artefatos/declaracao-escopo.docx)
-
-> Enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
->
-> - [Requisitos Funcionais (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
->   correspondem a uma funcionalidade que deve estar presente na
->   plataforma (ex: cadastro de usuário).
->
-> - [Requisitos Não Funcionais (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
->   correspondem a uma característica técnica, seja de usabilidade,
->   desempenho, confiabilidade, segurança ou outro (ex: suporte a
->   dispositivos iOS e Android).
->
-> Lembre-se que cada requisito deve corresponder à uma e somente uma
-> característica alvo da sua solução. Além disso, certifique-se de que
-> todos os aspectos capturados nas Histórias de Usuário foram cobertos.
-> 
-> **Links Úteis**:
-> 
-> - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
-> - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
-
-
 ### Requisitos Funcionais
-
-......  ATUALIZE OS REQUISITOS FUNCIONAIS DO SISTEMA (MÍNIMO 10) ......
 
 A tabela a seguir apresenta os requisitos funcionais do projeto. 
 
-|ID    | Descrição do Requisito  | Prioridade |
+|ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|-------|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RF-001| Permitir que o usuário realize o cadastro na plataforma (Username e Senha) | ALTA |
+|RF-002| Permitir que o usuário realize login (Autenticação) | ALTA |
+|RF-003| Permitir que o usuário realize logout da sessão | ALTA |
+|RF-004| Permitir a busca de músicas, álbuns e artistas através da integração com a API do Spotify | ALTA |
+|RF-005| Exibir detalhes da música (capa, nome, artista, álbum) selecionada | ALTA |
+|RF-006| Permitir que o usuário logado avalie uma música com uma nota (0 a 10) | ALTA |
+|RF-007| Permitir que o usuário visualize a lista de suas próprias avaliações (Meu Perfil) | ALTA |
+|RF-008| Permitir a pesquisa de outros usuários cadastrados na plataforma | MÉDIA |
+|RF-009| Permitir a visualização do perfil público e avaliações de outros usuários | ALTA |
+|RF-010| Exibir feedback visual de carregamento (loading) e erros durante as operações | MÉDIA |IA |
 
 ### Requisitos Não Funcionais
 
-......  ATUALIZE OS REQUISITOS NÃO FUNCIONAIS DO SISTEMA (MÍNIMO 5) ......
-
 A tabela a seguir apresenta os requisitos não funcionais do projeto. 
 
-|ID     | Descrição do Requisito                                            |Prioridade |
+|ID     | Descrição do Requisito                                            |Prioridade |
 |-------|-------------------------------------------------------------------|-----------|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA     | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s             | BAIXA     | 
+|RNF-001| O sistema deve ser responsivo, adaptando-se a dispositivos móveis e desktops | ALTA | 
+|RNF-002| As senhas dos usuários devem ser armazenadas de forma criptografada (Hash) | ALTA |
+|RNF-003| O sistema deve utilizar a API do Spotify para obter metadados, respeitando os limites de requisição | ALTA |
+|RNF-004| A interface deve ser intuitiva, seguindo padrões de UX/UI modernos (Material Design) | MÉDIA |
+|RNF-005| O sistema deve ser desenvolvido utilizando a stack Node.js (Backend) e React (Frontend) | ALTA |
 
 
 ### Restrições
 
-......  ATUALIZE AS RESTRIÇÕES DO SISTEMA (MÍNIMO 5) ......
-
 A tabela a seguir apresenta as restrições do projeto. 
 
-|ID    | Descrição do Requisito  | Prioridade |
+|ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|-------|
-|RE-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RE-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RE-001| O projeto deve ser concluído rigorosamente dentro do cronograma acadêmico (até 14/01/2026) | ALTA | 
+|RE-002| A equipe é limitada aos 4 alunos integrantes, sem contratação externa | ALTA |
+|RE-003| O projeto deve utilizar apenas tecnologias e serviços de hospedagem gratuitos (Free Tier) | ALTA |
+|RE-004| Dependência crítica da disponibilidade e regras de uso da API pública do Spotify | ALTA |
+|RE-005| O banco de dados deve ser SQLite (ou compatível) para facilitar a portabilidade | MÉDIA |
 
 
 ### Contra-Escopo
 
-......  ATUALIZE O CONTRA-ESCOPO DO SISTEMA (MÍNIMO 5) ......
-
 A tabela a seguir apresenta as atividades que não serão executadas no projeto
 
-|ID    | Descrição do Contra-Escopo          | 
+|ID    | Descrição do Contra-Escopo          | 
 |------|-------------------------------------|
-|CE-001| Treinamento de modelo de LLM        |
-|CE-002| Pesquisa de viabilidade do mercado. |
+|CE-001| Reprodução de músicas (streaming de áudio) diretamente na plataforma |
+|CE-002| Desenvolvimento de aplicativo móvel nativo (iOS ou Android) |
+|CE-003| Integração com outros serviços de streaming (Apple Music, Deezer, Tidal) |
+|CE-004| Funcionalidades de chat ou mensagens diretas em tempo real entre usuários |
+|CE-005| Algoritmos complexos de recomendação automática de músicas baseada em IA |
+|CE-006| Download de faixas para ouvir offline |
 
 ### Condições para início do Projeto
 
-......  ATUALIZE AS CONDIÇÕES PARA INÍCIO DOS PROJETOS (MÍNIMO 3) ......
-
 A tabela a seguir, apresente as condições para que o projeto seja iniciado.
 
-|ID    | Descrição de Condições para Início do Projeto    | 
+|ID    | Descrição de Condições para Início do Projeto    | 
 |------|--------------------------------------------------|
-|CI-001| Assinatura de contrato de prestação de serviços. |
-|CI-002| Apresentação de garantias definidas no contrato. |
+|CI-001| Obtenção das credenciais de acesso (Client ID/Secret) da API do Spotify para desenvolvedores |
+|CI-002| Definição e configuração do ambiente de desenvolvimento (Monorepo, Git) |
+|CI-003| Aprovação do estudo de viabilidade técnica pela equipe |
+|CI-004| Disponibilidade dos membros da equipe e acesso ao hardware necessário |
 
 ## Marcos Agendados e Entregas
 
-......  ATUALIZE OS MARCOS AGENDADOS DO PROJETO E AS DATAS PARA ENTREGAS DAS TAREFAS ......
-
 A tabela a seguir, identifique os marcos do projeto e os entregáveis previstos (requisitos).
 
-|ID   | Marco do Projeto                                                  | 
-|-----|-------------------------------------------------------------------|
-|M-1  | Liberação do sistema para cadastro de informações e configuração. |
-|M-2  | Permissão para uso do sistema, por usuários focais.               |
-|M-3  |                                                                   |
-|M-4  |                                                                   |
-|M-5  |                                                                   |
-|M-6  |                                                                   |
+|ID   | Marco do Projeto                                                  | Entregáveis Previstos | Data Prevista |
+|-----|-------------------------------------------------------------------|-----------------------|---------------|
+|M-1  | **Fim da Sprint 0** (Fundação) | Fundação técnica do projeto (Setup, Git, BD) e documentação inicial | 31/10/2025 |
+|M-2  | **Fim da Sprint 1** (Autenticação) | Sistema de Autenticação (Login/Cadastro) funcional e layout base | 20/11/2025 |
+|M-3  | **Fim da Sprint 2** (Integração Spotify) | Integração com Spotify concluída (Busca e Detalhes de músicas) | 10/12/2025 |
+|M-4  | **Fim da Sprint 3** (Avaliações/Perfil Pessoal) | Funcionalidade de Avaliações e Perfil Pessoal implementados | 30/12/2025 |
+|M-5  | **Fim da Sprint 4** (Finalização/Deploy) | Perfis Públicos, revisão final, deploy em produção e encerramento | 14/01/2026 |
 
 ```diff
 + Tarefa 02
@@ -312,53 +298,55 @@ A tabela a seguir, identifique os marcos do projeto e os entregáveis previstos 
 ```
 
 -----
+
+
+# Metodologia
 ```diff
 + Tarefa 03:
 + Metodologia do Projeto
 ```
+A metodologia adotada pelo grupo foi baseada em princípios ágeis, utilizando o framework Scrum para gestão do processo de desenvolvimento. O projeto foi dividido em ciclos de trabalho (Sprints), permitindo entregas incrementais e adaptação contínua aos requisitos.
 
-# Metodologia
+Para a organização e distribuição das tarefas, a equipe utilizou o GitHub Projects como ferramenta de Kanban. O quadro foi estruturado com as colunas:
 
-......  COLOQUE AQUI O SEU TEXTO ......
+- **Backlog:** Lista de todas as tarefas e requisitos do projeto.
 
-> Nesta parte do documento, você deve apresentar a metodologia adotada pelo grupo, descrevendo o processo de trabalho baseado nas metodologias ágeis, a divisão de papéis e tarefas e as ferramentas empregadas.
->
-> Coloque detalhes sobre o processo utilizado e a implementação do Framework Scrum seguido pelo grupo. 
-> O grupo deverá gerenciar as tarefas utilizando o GitHub Project para acompanhar o andamento do projeto, a execução das tarefas e o status de desenvolvimento da solução.
-> 
-> **Links Úteis**:
-> - [Github Project](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project)
-> - [O que é o GitHub Projects? | Guia de Iniciantes](https://www.youtube.com/watch?v=vxYTpsFKdiQ&ab_channel=JulioArruda)
-> - [Introduction to GitHub Project Boards](https://www.youtube.com/watch?v=idZyqNIrt84&list=PLiO7XHcmTslc5hGrbnnmHIb0SeJLTpOEu&ab_channel=MickeyGousset)
-> - [11 Passos Essenciais para Implantar Scrum no seu Projeto](https://mindmaster.com.br/scrum-11-passos/)
-> - [Scrum em 9 minutos](https://www.youtube.com/watch?v=XfvQWnRgxG0)
+- **Ready:** Tarefas priorizadas e prontas para serem iniciadas na Sprint atual.
+
+- **In Progress:**Tarefas que estão sendo desenvolvidas no momento.
+
+- **In Review:** Tarefas concluídas que aguardam revisão de código (Pull Request) ou testes.
+
+- **Done:** Tarefas finalizadas e aprovadas.
+
+O acompanhamento do progresso foi realizado através de comunicações assíncronas (WhatsApp/Discord) e revisões semanais ao fim de cada Sprint para alinhar o cronograma.
 
 ## Divisão de Papéis
 
-......  COLOQUE AQUI O SEU TEXTO ......
+A equipe foi organizada de forma multidisciplinar, com cada membro assumindo responsabilidades específicas, embora todos tenham colaborado no desenvolvimento geral:
 
-> Apresente a divisão de papéis e tarefas entre os membros do grupo.
-> Indique as responsabilidades de cada membro do grupo no projeto.
+- **David Nunes Ribeiro (Gerente do Projeto /Scrum Master / Tech Lead):** Responsável pela gestão do projeto, garantia da qualidade do código, configuração da infraestrutura (DevOps) e liderança técnica.
+
+- **Cauã Diniz Armani (Product Owner / QA):** Responsável por definir as prioridades do produto (backlog), validar os requisitos e realizar os testes de qualidade para garantir que as funcionalidades atendam às expectativas.
+
+- **Bruna de Paula Anselmi (Front-end / UX/UI):** Responsável pelo design das interfaces, experiência do usuário e implementação dos componentes visuais utilizando React e Material UI.
+
+- **Lucca Mendes Alves Pellegrini (Back-end):** Responsável pela arquitetura do servidor, criação da API, gestão do banco de dados e regras de negócio.
 
 ## Ferramentas
 
-......  COLOQUE AQUI O SEU TEXTO - SIGA O EXEMPLO DA TABELA ABAIXO  ......
+As ferramentas empregadas no projeto foram selecionadas visando eficiência, gratuidade e facilidade de integração. Abaixo estão listadas as principais ferramentas utilizadas:
 
-> Liste as ferramentas empregadas no desenvolvimento do projeto, justificando a escolha delas, sempre que possível.
-> Todas as ferramentas utilizadas devem ser listadas.
-> Qualquer tipo de ferramenta que for utilizada para construção de um artefato deve ser identificada, uma vez que podem ser necessárias alterações.
-> A necessidade de uso de licenças e possíveis custos relacionados devem ser indicados.
-
-| Ambiente              | Plataforma         | Link de Acesso             | Justificativa |
-|-----------------------|--------------------|----------------------------|---------------|
-| Quadro Kanban         | Github             | https://github.com/XXXXXXX | Centralização e organização do projeto no próprio repositório. |
-| Repositório de código | GitHub             | https://github.com/XXXXXXX |               |
-| Protótipo Interativo  | MavelApp ou Figma  | https://figma.com/XXXXXXX  |               |
-| Documentos Textuais   | LibreOffice Writer | N/A                        |               |
-| Planilhas e Gráficos  | Google Planilhas   | https://docs.google.com/   |               |
-| EAP / WBS             | | | |
-| Cronograma do Projeto | | | |
-| Matriz RACI           | | | |
+| Ambiente | Plataforma | Link de Acesso | Justificativa | 
+| ----- | ----- | ----- | ----- | 
+| **Quadro Kanban** | GitHub Projects | [Acessar Kanban](https://github.com/orgs/ICEI-PUCMinas-PSG-SI-TI/projects/162) | Centralização da gestão de tarefas integrada ao repositório de código. | 
+| **Repositório de Código** | GitHub | [Acessar Repositório](https://github.com/ICEI-PUCMinas-PSG-SI-TI/projeto-gps-mytracklist) | Controle de versão distribuído e colaboração via Pull Requests. | 
+| **Editor de Código** | VS Code | N/A | IDE leve e extensível, padrão da indústria para desenvolvimento JS/TS. | 
+| **Comunicação** | Discord / WhatsApp | N/A | Canais para comunicação rápida (assíncrona) e reuniões de alinhamento. | 
+| **Hospedagem (Back-end)** | Render | N/A | Plataforma de nuvem (PaaS) com suporte nativo a Node.js e deploy contínuo. | 
+| **Hospedagem (Front-end)** | Vercel | N/A | Plataforma otimizada para frameworks frontend como React/Vite. | 
+| **Banco de Dados** | SQLite | N/A | Banco de dados leve e portátil, ideal para o escopo do projeto e fácil configuração. | 
+| **Gestão de BD** | DB Browser for SQLite | N/A | Ferramenta visual para criar tabelas e verificar a integridade dos dados. |
 
 ```diff
 + Tarefa 03:
