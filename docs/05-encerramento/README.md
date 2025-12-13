@@ -1,11 +1,5 @@
 # Encerramento
 
-> A fase de encerramento marca a conclusão formal de todas as atividades relacionadas ao projeto. 
-> Durante essa etapa, os resultados finais são avaliados em relação aos objetivos iniciais e as entregas são revisadas para garantir conformidade com os requisitos estabelecidos. 
-> Os processos de encerramento incluem a documentação de lições aprendidas, a formalização da aceitação do cliente e a finalização de contratos e recursos. 
-> As equipes devem realizar uma avaliação pós-projeto para identificar sucessos, desafios e áreas de melhoria. 
-> A fase de encerramento contribui para a transparência, satisfação do cliente e a consolidação das experiências adquiridas ao longo do ciclo de vida do projeto.
-
 # Estrutura do Documento
 
 - [Fase de Encerramento](#encerramento)
@@ -22,42 +16,90 @@
 
 # Encerramento do Projeto
 
-......  COLOQUE AQUI O SEU TEXTO ......
+#### 1. Objetivo do Projeto
 
-> O Termo de Encerramento descreve uma a conclusão formal das atividades e entregas planejadas. 
-> Este documento revisa o escopo do projeto em relação ao que foi realmente entregue, documenta o sucesso ou as variações em relação aos objetivos iniciais, e destaca quaisquer pendências ou recomendações para futuros projetos similares. 
-> O Termo de Encerramento também inclui a formalização da aceitação do cliente, a transferência de responsabilidades e ativos, bem como a liberação de recursos da equipe do projeto. 
+Desenvolver um site para avaliar, organizar e compartilhar músicas, permitindo que usuários registrem suas preferências e descubram novas faixas.
+
+#### 2. Resumo do Projeto
+
+No projeto MyTrackList, iniciamos o desenvolvimento com a configuração do serviço de API utilizando Axios, que serviu de base para a comunicação entre o frontend e o backend. Em seguida, criamos a página de detalhes da música para visualização de informações específicas sobre cada faixa.
+
+Implementamos componentes essenciais como Rotas Protegidas e o contexto de autenticação (AuthContext) para gerir sessões de forma eficiente. Integramos os formulários de login e cadastro com a API e desenvolvemos a lógica crítica para obtenção do token de acesso do Spotify. Ao longo do processo, realizamos testes de integração e unitários para assegurar a qualidade, resultando numa solução robusta que proporciona uma experiência agradável de gestão musical.
+
+#### 3. Artefatos Entregues
+
+- Frontend:
+
+    - Aplicação desenvolvida em React 19 com Vite, Material-UI, Axios e React Router.
+
+    - Componentes: ProtectedRoute, RatingInput, SearchBar, ReviewItem.
+
+    - Páginas: HomePage, LoginPage, RegisterPage, ProfilePage, PublicProfilePage, SearchResultsPage, TrackDetailsPage, UserSearchPage.
+
+    - Serviços: Contexto de Autenticação (AuthContext) e serviços de integração (API, Reviews, Spotify).
+
+- Backend:
+
+    - API REST desenvolvida em Node.js/Express com TypeScript, utilizando Bun como runtime.
+
+    - Estrutura: Controllers (Admin, Review, User), Factories e Interfaces.
+
+    - Base de Dados: SQLite configurado com persistência.
+
+    - Segurança: Autenticação via sessões, rate limiting e helmet.
+
+    - Scripts administrativos para gestão de utilizadores.
+
+#### 4. Conclusões
+
+O projeto alcançou os objetivos definidos inicialmente, entregando uma aplicação web funcional para gestão de playlists e integração com a API do Spotify. Através de um desenvolvimento ágil e colaborativo, a equipa entregou uma solução que atende às necessidades do cliente com uma interface intuitiva.
+
+Os resultados demonstraram a eficácia da comunicação entre o front-end e o back-end, a segurança na autenticação e a integração fluida com a biblioteca de músicas. O projeto serviu como um excelente exercício de aplicação de tecnologias modernas como React, Node.js, Bun e SQLite.
 
 
 # Lições Aprendidas 
 
-......  COLOQUE AQUI O SEU TEXTO ......
+A identificação e documentação de lições aprendidas contribuem significativamente para a melhoria contínua das práticas da equipa. Abaixo, destacam-se os principais aprendizados do projeto MyTrackList:
 
-> A identificação e documentação de lições aprendidas contribuem significativamente para a melhoria contínua e o aprimoramento das práticas organizacionais. 
-> Este processo envolve a reflexão sistemática sobre os sucessos e desafios enfrentados durante a execução do projeto, analisando o que funcionou bem e o que poderia ser melhorado. 
-> A documentação dessas lições aprendidas abrange não apenas os aspectos técnicos, mas também os relacionados ao gerenciamento de equipes, comunicação, riscos, entre outros. 
-> Ao compartilhar essas experiências, as organizações têm a oportunidade de evitar a repetição de erros, replicar práticas bem-sucedidas e fortalecer a capacidade de gerenciamento de projetos ao longo do tempo. 
+#### A. Importância do Planejamento
+
+O planejamento inicial e a definição clara dos objetivos foram fundamentais para manter o foco durante o desenvolvimento e garantir que todas as funcionalidades necessárias fossem implementadas no tempo previsto.
+
+#### B. Integração e Comunicação
+
+A integração entre o front-end e o back-end é crucial. Aprendemos que uma boa comunicação entre os membros responsáveis por cada parte é necessária para resolver problemas rapidamente e garantir que as funcionalidades se alinhem.
+
+#### C. Segurança em Primeira Mão
+
+A implementação de um sistema de autenticação robusto destacou a importância da segurança em aplicações web desde o início do projeto, especialmente ao lidar com dados sensíveis e credenciais de usuários.
+
+#### D. Testes Contínuos
+
+A realização de testes de integração e unitários ao longo do desenvolvimento ajudou a identificar e prevenir problemas precocemente, melhorando significativamente a qualidade do código e a confiabilidade da aplicação final.
+
+#### E. Adaptação e Flexibilidade
+
+O projeto exigiu adaptação a novas tecnologias. Aprendemos a ser flexíveis e a buscar soluções criativas para os desafios técnicos. Exemplos claros foram a escolha do runtime Bun (pela sua integração nativa com SQLite e desempenho) e o uso do Axios para otimizar as requisições à API REST.
 
 # Auto-avaliação
 
-......  COLOQUE AQUI O SEU TEXTO *(OPCIONAL)* ......
+- **Bruna de Paula Anselmi:**
 
-> **Esta seção normalmente não existe em projetos. Foi adicionada neste documento apenas no contexto da disciplina.**
->
-> Nesta seção, cada membro do grupo deve fornecer sua visão individual acerca da disciplina.
-> Indique também as contribuições da disciplina contribuiu para seu crescimento profissional.
-> Avalie seu comprometimento e itens que poderia melhorar.
-> Busque inspiração na filosofia [kaizen](https://pt.wikipedia.org/wiki/Kaizen), para seguir melhorando a cada dia.
+- **Cauã Diniz Armani:** 
 
+- **David Nunes Ribeiro:** A disciplina superou as minhas expectativas, especialmente pelo desafio prático que o projeto proporcionou. Embora o foco principal fosse a gestão, a oportunidade de aplicar simultaneamente conceitos de gerência ágil e desenvolvimento full stack foi extremamente enriquecedora. Esta experiência permitiu-me consolidar conhecimentos técnicos e de liderança, resultando num projeto robusto que servirá como peça-chave no meu portfólio. Considero que esta foi a matéria onde demonstrei maior comprometimento e esforço ao longo do semestre, focado em garantir uma entrega de alta qualidade.
+
+- **Lucca Mendes Alves Pellegrini:**
 
 # Sugestões e Críticas
 
-......  COLOQUE AQUI O SEU TEXTO *(OPCIONAL)* ......
+- **Bruna de Paula Anselmi:**
 
-> **Esta seção normalmente não existe em projetos. Foi adicionada neste documento apenas no contexto da disciplina.**
->
-> Utilize esta seção para indicar sugestões e críticas acerca da disciplina e do formato aqui trabalhado.
-> Tanto sugestões quanto críticas são sempre bem vindas!
+- **Cauã Diniz Armani:**
+
+- **David Nunes Ribeiro:** Acredito que a disciplina beneficiaria de uma simulação mais intensa do feedback contínuo do cliente. Sugiro a inclusão de mais pontos de controle (apresentações parciais) ao longo do semestre, onde o professor pudesse visualizar o progresso tangível do software e fornecer pareceres sobre a direção do produto, simulando a dinâmica real de revisões de Sprint com stakeholders. Embora compreenda que o foco é a gestão, essa interação prática enriqueceria a experiência de adaptação às mudanças.
+
+- **Lucca Mendes Alves Pellegrini:**
 
 
 ```diff
