@@ -41,24 +41,33 @@
 
 ## Problema
 
-......  COLOQUE AQUI O SEU TEXTO ......
-
-> Problem corresponde a uma lacuna a ser preenchida, uma necessidade a ser atendida, ou uma dificuldade a ser superada.
-> A definição precisa do problema ajuda a orientar as atividades do projeto, direcionando os esforços em sua solução.
-> Seu entendimento facilita a comunicação eficaz entre os membros da equipe e as partes interessadas, estabelecendo uma base comum para a colaboração.
-> Nesta seção, deve ser descrito apenas o problema e seu contexto.
-> Soluções para o problema devem ser descritas na seção correspondente.
+>Atualmente, o consumo de música digital está extremamente fragmentado entre a "audição" e a "interação". Embora serviços de streaming como o Spotify e Apple Music ofereçam acesso a bibliotecas musicais vastas e algoritmos de recomendação eficientes, eles falham em proporcionar um espaço dedicado para o registro crítico e pessoal da jornada musical do utilizador.
+>
+>Os entusiastas de música enfrentam as seguintes dificuldades:
+>
+>- Falta de Catalogação Pessoal: Não existe uma ferramenta consolidada e popular (semelhante ao Letterboxd para filmes ou Goodreads para livros) que permita aos utilizadores manter um diário de faixas ouvidas, atribuindo notas e registrando opiniões pessoais de forma organizada.
+>
+> - Experiência Social Limitada: As funcionalidades sociais nas plataformas de streaming são muitas vezes secundárias ou pouco intuitivas. É difícil para um utilizador saber o que os seus amigos estão realmente a ouvir e, mais importante, o que eles acham dessas músicas, sem recorrer a redes sociais genéricas (Twitter/Instagram) onde o contexto musical se perde.
+>
+> - Descoberta Passiva vs. Ativa: A descoberta de novas músicas tornou-se um processo passivo, dependente de algoritmos. Falta um ambiente onde a descoberta seja impulsionada ativamente pela curadoria humana e pelas recomendações da comunidade ou círculo de amigos do utilizador.
+>
+> Em resumo, existe uma lacuna no mercado para uma plataforma que transforme o ato solitário de ouvir música numa experiência de catalogação social e partilha de gostos.
 
 ## Objetivos
 
-......  COLOQUE AQUI O SEU TEXTO ......
-
-> Aqui você deve descrever os objetivos do trabalho.
-> Apresente um Objetivo Geral, sintetizado em uma única frase.
-> Apresente também 3 ou 4 objetivos específicos (sub-produtos do sistema ou objetivos extras que podem ser alcançados pela construção do software).
-> 
-> **Link Útil**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
+>Objetivo Geral
+>
+>Desenvolver uma plataforma web social integrada com a API do Spotify que permita aos usuários catalogar seu histórico musical, atribuir avaliações críticas e compartilhar descobertas com uma comunidade de ouvintes.
+>
+>Objetivos Específicos
+>
+>- Implementar um sistema de diário musical: Criar uma funcionalidade que permita aos usuários registrar músicas ouvidas, atribuir notas (0-10) e organizar essas avaliações em um perfil pessoal acessível.
+>
+> - Facilitar a descoberta social: Desenvolver perfis públicos pesquisáveis onde usuários podem visualizar e explorar as coleções e avaliações de outros membros da comunidade para descobrir novas músicas.
+>
+> - Centralizar a gestão de preferências: Oferecer uma interface unificada onde o usuário possa visualizar estatísticas básicas de suas avaliações e gerenciar suas faixas favoritas sem depender exclusivamente dos algoritmos de streaming.
+>
+> - Garantir a integridade e segurança dos dados: Implementar um sistema robusto de autenticação e autorização para proteger as contas dos usuários e garantir que apenas o autor possa editar ou excluir suas próprias avaliações.
 
 
 ## Justificativa
