@@ -63,6 +63,22 @@ export class UserController {
     }
   }
 
+  // --- NOVO MÉTODO: Pesquisar utilizadores (parcial) ---
+  async searchUsers(query: string) {
+    try {
+      // Busca utilizadores cujo nome contenha a query (LIKE %query%)
+      // Limitamos a 20 resultados para não sobrecarregar
+      const users = await this.db.all(
+        'SELECT id, username, created_at FROM users WHERE username LIKE ? LIMIT 20',
+        [`%${query}%`]
+      );
+      return { success: true, users: users || [] };
+    } catch (error) {
+      console.error('Erro ao pesquisar utilizadores:', error);
+      return { success: false, message: 'Falha ao pesquisar utilizadores.' };
+    }
+  }
+
   async getUserReviews(userId: number) {
     try {
       const reviews = await this.db.all(

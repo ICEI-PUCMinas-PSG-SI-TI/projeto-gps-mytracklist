@@ -6,17 +6,15 @@ import {
   Typography,
   Box,
   List,
-  ListItem,
-  ListItemText,
   CircularProgress,
   Alert,
   Paper,
   Divider
 } from '@mui/material';
-import RatingInput from '../components/RatingInput'; // Reutilizamos para mostrar a nota
+import ReviewItem from '../components/ReviewItem'; // <-- Importar o novo componente
 
 function ProfilePage() {
-  const { user } = useAuth(); // Obtemos o utilizador logado para exibir o nome
+  const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -37,7 +35,7 @@ function ProfilePage() {
     };
 
     fetchReviews();
-  }, []); // Executa apenas uma vez ao montar o componente
+  }, []);
 
   return (
     <Container maxWidth="md">
@@ -70,15 +68,8 @@ function ProfilePage() {
         {!loading && !error && reviews.length > 0 && (
           <List sx={{ width: '100%' }}>
             {reviews.map((review) => (
-              <ListItem key={review.id} divider>
-                <ListItemText
-                  primary={`ID da Música: ${review.trackId}`}
-                  // Poderíamos adicionar um link para /music/:trackId aqui
-                  secondary={
-                    <RatingInput value={review.rating} readOnly={true} />
-                  }
-                />
-              </ListItem>
+              // <-- AQUI: Usamos o mesmo componente inteligente
+              <ReviewItem key={review.id} review={review} />
             ))}
           </List>
         )}

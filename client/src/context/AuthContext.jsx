@@ -1,52 +1,67 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import api from '../services/api';
 
-// Cria o Contexto
 const AuthContext = createContext();
 
-// Cria o Provedor do Contexto
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado de carregamento para verificar a sessão
+export const useAuth = () => useContext(AuthContext);
 
-  // Função para verificar se existe uma sessão ativa no back-end ao carregar a app
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Função para verificar se o utilizador já está logado ao carregar a página
   useEffect(() => {
-    async function checkSession() {
+    const checkAuth = async () => {
       try {
         const response = await api.get('/auth/me');
         setUser(response.data);
+        setIsAuthenticated(true);
       } catch (error) {
-        // Se der erro (ex: 401 não autorizado), significa que não há sessão
         setUser(null);
+        setIsAuthenticated(false);
       } finally {
-        // Termina o carregamento, independentemente do resultado
         setLoading(false);
       }
-    }
-    checkSession();
-  }, []); // O array vazio [] garante que isto corre apenas uma vez
+    };
 
+    checkAuth();
+  }, []);
+
+  // Função de Login
   const login = async (username, password) => {
-    const response = await api.post('/auth/login', { username, password });
-    setUser(response.data); // Guarda as informações do utilizador no estado
-    return response;
+    try {
+      await api.post('/auth/login', { username, password });
+      
+      // Após login com sucesso, buscamos os dados do utilizador IMEDIATAMENTE
+      // Isto garante que o estado é atualizado sem F5
+      const response = await api.get('/auth/me');
+      setUser(response.data);
+      setIsAuthenticated(true);
+      return { success: true };
+    } catch (error) {
+      console.error('Erro no login:', error);
+      return { 
+        success: false, 
+        message: error.response?.data?.error || 'Falha no login' 
+      };
+    }
   };
 
+  // Função de Logout
   const logout = async () => {
-    await api.post('/auth/logout');
-    setUser(null); // Limpa as informações do utilizador
+    try {
+      await api.post('/auth/logout');
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error('Erro no logout:', error);
+    }
   };
-
-  const isAuthenticated = !!user; // Converte o objeto 'user' para um booleano
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
-}
-
-// Cria um hook customizado para facilitar o uso do contexto noutros componentes
-export function useAuth() {
-  return useContext(AuthContext);
-}
+};

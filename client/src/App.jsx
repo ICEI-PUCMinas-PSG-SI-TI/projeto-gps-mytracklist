@@ -7,7 +7,8 @@ import RegisterPage from './pages/RegisterPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import TrackDetailsPage from './pages/TrackDetailsPage';
 import ProfilePage from './pages/ProfilePage';
-import PublicProfilePage from './pages/PublicProfilePage'; // Nova Importação
+import PublicProfilePage from './pages/PublicProfilePage';
+import UserSearchPage from './pages/UserSearchPage';
 import { useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -36,9 +37,14 @@ function App() {
             Início
           </Button>
           {isAuthenticated && (
+            <>
              <Button component={Link} to="/profile" sx={{ mr: 2 }}>
                 Meu Perfil
              </Button>
+             <Button component={Link} to="/search-users" sx={{ mr: 2 }}>
+                Comunidade
+             </Button>
+            </>
           )}
         </nav>
         <Box>
@@ -57,7 +63,7 @@ function App() {
                 Login
               </Button>
               <Button component={Link} to="/register" variant="contained">
-                Registar
+                Registrar
               </Button>
             </>
           )}
@@ -71,8 +77,8 @@ function App() {
         <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
         <Route path="/music/:id" element={<ProtectedRoute><TrackDetailsPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        {/* Nova Rota para Perfil Público */}
         <Route path="/user/:username" element={<ProtectedRoute><PublicProfilePage /></ProtectedRoute>} />
+        <Route path="/search-users" element={<ProtectedRoute><UserSearchPage /></ProtectedRoute>} />
       </Routes>
     </Container>
   );

@@ -6,20 +6,18 @@ import {
   Typography,
   Box,
   List,
-  ListItem,
-  ListItemText,
   CircularProgress,
   Alert,
   Paper,
   Divider,
   Button
 } from '@mui/material';
-import RatingInput from '../components/RatingInput';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReviewItem from '../components/ReviewItem'; // <-- Importar o novo componente
 
 function PublicProfilePage() {
-  const { username } = useParams(); // Obtém o nome da URL
-  const [profileData, setProfileData] = useState(null); // Guarda { user, reviews }
+  const { username } = useParams();
+  const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -86,23 +84,8 @@ function PublicProfilePage() {
         ) : (
           <List sx={{ width: '100%' }}>
             {profileData?.reviews.map((review) => (
-              <ListItem key={review.id} divider>
-                <ListItemText
-                  primary={
-                    <Link to={`/music/${review.trackId}`} style={{ textDecoration: 'none', color: 'inherit', fontWeight: 'bold' }}>
-                        Música ID: {review.trackId}
-                    </Link>
-                  }
-                  secondary={
-                    <Box sx={{ mt: 1 }}>
-                        <RatingInput value={review.rating} readOnly={true} />
-                        <Typography variant="caption" display="block" color="text.secondary">
-                            Avaliado em: {new Date(review.createdAt).toLocaleDateString()}
-                        </Typography>
-                    </Box>
-                  }
-                />
-              </ListItem>
+              // <-- AQUI: Usamos o componente inteligente ReviewItem
+              <ReviewItem key={review.id} review={review} />
             ))}
           </List>
         )}
