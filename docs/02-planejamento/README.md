@@ -99,27 +99,23 @@ O projeto está dividido em sprints, cada uma com objetivos específicos:
 
 # Estrutura Analítica do Projeto
 
-......  COLOQUE AQUI O SEU TEXTO ......
-
-> A Estrutura Analítica do Projeto (EAP) proporciona uma representação hierárquica atividades que compõem um projeto.
-> Organizando o escopo do projeto em componentes gerenciáveis e compreensíveis, a EAP facilita a decomposição do trabalho em partes menores, tornando mais fácil o planejamento, a atribuição de responsabilidades e o monitoramento do progresso.
-> Cada elemento na estrutura representa uma parcela específica do trabalho a ser realizado, proporcionando clareza sobre as inter-relações entre as diferentes partes do projeto.
-> A EAP serve como a base para a criação do cronograma do projeto, a alocação de recursos e a identificação de dependências.
-> Essa abordagem estruturada contribui significativamente para o sucesso do projeto, garantindo uma compreensão abrangente do escopo e uma base sólida para a gestão eficaz do trabalho ao longo do ciclo de vida do projeto.
-
-> Crie uma nova imagem da Estrutura Analítica do Projeto. Não se esqueça de adicionar o documento editável no repositório.
+A Estrutura Analítica do Projeto (EAP) para o MyTrackList foi elaborada para
+decompor o escopo em componentes gerenciáveis, organizados hierarquicamente
+desde o nível do projeto geral até as tarefas específicas de cada sprint. Essa
+decomposição facilita o planejamento detalhado, a atribuição de
+responsabilidades e o monitoramento do progresso, assegurando que todas as
+atividades estejam alinhadas com os objetivos descritos acima. Como ilustrado
+na imagem abaixo, a EAP inclui elementos como configuração inicial,
+desenvolvimento de funcionalidades e finalização.
 
 ![Estrutura Analítica do Projeto](images/exemplo_wbs.png)
 
-> Softwares recomendados:
-> * [WBS Schedule Pro (Demo)](https://www.criticaltools.com/)
-> * [Draw.io](https://app.diagrams.net/)
-> * [ProjectLibre](https://www.projectlibre.com/)
-
+<!--
 ### Documento Editável
 
 > Você deve atualiza o seguinte link (ou link correspondente), como o arquivo editável de geração da WBS:
 - [Estrutura Analítica do Projeto - Editável](artefatos/estrutura_analitica_projeto.wbs)
+-->
 
 ```diff
 + Tarefa 04:
