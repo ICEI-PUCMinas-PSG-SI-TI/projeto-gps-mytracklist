@@ -265,7 +265,16 @@ eficiente, e o cronograma visa otimizar recursos e antecipar possíveis atrasos.
 
 ## Plano de Qualidade
 
-...... DESCREVA SUCINTAMENTE O PLANO DE QUALIDADE UTILIZADO NO PROJETO ......
+O nosso Plano de Qualidade visa à garantia da conformidade e da qualidade dos
+artefatos por meio de verificações técnicas, testes funcionais e revisões.
+Inclui artefatos como Pull Requests (revisão técnica), componentes React
+(revisão de apresentação) e endpoints de API (teste funcional), com métricas
+como resolução de 100% dos comentários de revisão e conformidade com fluxos
+esperados. Padrões adotados incluem TypeScript Strict Mode, ESLint,
+Conventional Commits e Gitflow. Atividades ocorrem via GitHub PRs, ambientes
+locais de desenvolvimento e ferramentas como DB Browser. Metodologias seguem
+PMBOK: Prevenção (ferramentas estáticas e planejamento), Inspeção (revisões via
+PR) e Teste Funcional (verificação manual antes do commit).
 
 > O Plano de Qualidade auxilia a garantir que as entregas do projeto atendam aos padrões de qualidade definidos.
 > Este plano abrange atividades como definição de padrões, procedimentos de garantia de qualidade, critérios de aceitação e processos de monitoramento e controle da qualidade ao longo do ciclo de vida do projeto.
@@ -292,6 +301,11 @@ eficiente, e o cronograma visa otimizar recursos e antecipar possíveis atrasos.
 
 > Você pode utilizar como referência o seguinte documento:
 > [Checklist de Qualidade](artefatos/checklist_qualidade.docx)
+
+
+![Checklist de Qualidade (página 1)](images/checklist_de_qualidade-1.png)
+![Checklist de Qualidade (página 2)](images/checklist_de_qualidade-2.png)
+![Checklist de Qualidade (página 2)](images/checklist_de_qualidade-2.png)
 
 ### Artefatos a serem verificados
 
