@@ -381,11 +381,69 @@ PR) e Teste Funcional (verificação manual antes do commit).
 > O Plano de Aquisições visa garantir a aquisição eficiente e eficaz dos recursos necessários, minimizando riscos e custos.
 > Além disso, ele proporciona transparência nas relações com fornecedores, promovendo a conformidade com os prazos estabelecidos e padrões de qualidade.
 
-### Documento Editável
+### Solicitação de Compra
+
+**Solicitação de Compra no: 0001 – 16/11/2025**
+**Projeto: MyTrackList**
+**Gerente do Projeto: David Nunes Ribeiro**
+**Prazo para aquisição: 15 dias**
+**Orçamento aprovado: R$ 500,00 (anual)**
+
+#### Item a ser adquirido (descrição resumida / quantidade) e justificativa (aplicação)
+
+| Item                                                       | Quantidade | Justificativa                                                                                                                                                                            |
+| ---------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Serviço de Alojamento Cloud (PaaS - Platform as a Service) | 1          | Necessário para a implantação (deploy) do servidor backend (API) e da base de dados, tornando a aplicação acessível publicamente na internet para os testes finais e entrega do projeto. |
+
+#### Descrição detalhada do item a ser adquirido (especificação técnica)
+
+O serviço deve ser uma Plataforma como Serviço (PaaS) que suporte nativamente as tecnologias do nosso projeto:
+
+1. Runtime do Backend: Suporte para Node.js (compatível com Bun).
+2. Base de Dados: Suporte para SQLite com armazenamento persistente (ou um serviço de PostgreSQL de baixo custo).
+3. Memória: Mínimo de 512 MB de RAM.
+4. CPU: Mínimo de 0.5 vCPU.
+5. Implantação: Capacidade de implantação contínua (CI/CD) com ligação direta ao repositório GitHub.
+6. Configuração: Capacidade de configurar variáveis de ambiente (para SESSION_SECRET, SPOTIFY_CLIENT_ID, etc.).
+7. Segurança: Fornecimento de certificado SSL automático (HTTPS) para o domínio da aplicação.
+8. Rede: Suporte a domínios personalizados.
+
+#### Requisitos de qualidade do produto
+
+Conforme o PMBOK 12.1 (Planejar o Gerenciamento das Aquisições), a qualidade do serviço será medida por:
+
+1. Disponibilidade (Uptime): O serviço deve garantir um uptime mínimo de 99.9%.
+2. Monitorização: O fornecedor deve disponibilizar um painel de controlo para monitorização de logs da aplicação em tempo real.
+3. Suporte Técnico: Disponibilidade de suporte técnico com tempo de resposta inicial em menos de 24 horas para incidentes críticos.
+4. Conformidade: O serviço deve estar em conformidade total com a especificação técnica listada acima.
+
+#### Cotações de Preço
+
+| Fornecedor                         | Valor unitário          | Valor total              |
+| ---------------------------------- | ----------------------- | ------------------------ |
+| 1. Render (Plano Starter)          | R$ 35,00                | R$ 420,00                |
+| 2. Heroku (Plano Eco)              | R$ 25,00                | R$ 300,00                |
+| 3. DigitalOcean (Droplet Básico)   | R$ 30,00                | R$ 360,00                |
+| 4. AWS Cloud (Lightsail)           | R$ 25,00\* (Estimativa) | R$ 300,00\* (Estimativa) |
+| 5. Azure (VM B1s)                  | R$ 20,00\* (Estimativa) | R$ 240,00\* (Estimativa) |
+| 6. Google Cloud (Compute e2-micro) | R$ 15,00\* (Estimativa) | R$ 180,00\* (Estimativa) |
+| 7. Virtual Notion (Plano Básico)   | R$ 20,00\* (Estimativa) | R$ 240,00\* (Estimativa) |
+
+#### Aprovação
+
+| Funcionário                       | Cargo/Setor            |
+| --------------------------------- | ---------------------- |
+| 1. David Nunes Ribeiro            | Gerente do Projeto     |
+| 2. Pedro Felipe Alves de Oliveira | Professor / Orientador |
+
+![Plano de Aquisição (página 1)](images/plano_de_aquisição-1.png)
+![Plano de Aquisição (página 2)](images/plano_de_aquisição-2.png)
+
+<!-- ### Documento Editável
 
 > Você deve atualiza o seguinte link (ou link correspondente), como o arquivo editável de geração da WBS:
 
-- [Especificação Produto Aquisição - Editável](artefatos/aquisicao_produtos.docx)
+- [Especificação Produto Aquisição - Editável](artefatos/aquisicao_produtos.docx) -->
 
 ```diff
 + Tarefa 10:
