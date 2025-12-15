@@ -530,7 +530,7 @@ assíncrona, transparência e eficiência em reuniões síncronas.
 
 ## Plano de Riscos
 
-...... COLOQUE AQUI O SEU TEXTO ......
+O Plano de Riscos do projeto MyTrackList identifica, analisa e mitiga potenciais ameaças e oportunidades, categorizando riscos por área (técnica, equipe, cronograma, orçamento, etc.) e definindo medidas preventivas e contingenciais para minimizar impactos e maximizar chances de sucesso.
 
 > O plano de riscos busca antecipar, avaliar e mitigar os desafios potenciais que podem surgir ao longo do projeto.
 > Este documento estratégico oferece uma visão global dos riscos, categorizando-os e delineando estratégias para lidar com cada uma das possíveis adversidades.
@@ -547,16 +547,24 @@ assíncrona, transparência e eficiência em reuniões síncronas.
 
 | Categoria do Risco | Descrição do Risco | Impacto | Risco | Medidas de Prevenção (Contramedidas) | Medidas de Contingência (Mitigação) |
 | ------------------ | ------------------ | ------- | ----- | ------------------------------------ | ----------------------------------- |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
-|                    |                    |         |       |                                      |                                     |
+| Técnico | Falha na integração com a API do Spotify devido a mudanças na API | Alto | Alto | Monitorar documentação oficial da API e manter contato com suporte do Spotify; desenvolver versão mock para testes | Implementar dados mock temporários e buscar alternativas como outras APIs de música |
+| Equipe | Saída inesperada de um membro da equipe de desenvolvimento | Alto | Médio | Realizar treinamentos cruzados e manter documentação detalhada; estabelecer contratos de não-concorrência | Redistribuir tarefas entre membros restantes e contratar freelancer temporário se necessário |
+| Cronograma | Atrasos em entregas de sprints devido a subestimação de complexidade | Médio | Alto | Realizar reuniões de planejamento detalhado e usar técnicas de estimativa como Planning Poker | Replanejar sprints afetados e ajustar escopo se necessário para manter prazos |
+| Orçamento | Custos extras com ferramentas ou serviços de hospedagem | Médio | Médio | Definir orçamento detalhado e reservar contingência de 10%; comparar preços de fornecedores | Negociar preços com fornecedores ou buscar alternativas mais econômicas |
+| Segurança | Vazamento de dados de usuários devido a falhas de segurança | Alto | Baixo | Implementar boas práticas de segurança (criptografia, validação) e auditorias regulares | Notificar usuários afetados, corrigir vulnerabilidades e cooperar com autoridades se necessário |
+| Qualidade | Bugs críticos não detectados antes do deploy | Médio | Médio | Realizar testes rigorosos (unitários, integração, aceitação) e revisões de código | Corrigir bugs emergencialmente e lançar hotfix; adiar deploy se impacto for alto |
+| Stakeholder | Mudanças frequentes nos requisitos por parte do PO | Alto | Médio | Definir processo claro de mudança de escopo e aprovação formal; manter comunicação constante | Avaliar impacto e custo da mudança; renegociar prazos/orçamento se necessário |
+| Infraestrutura | Problemas com provedor de hospedagem cloud | Médio | Médio | Escolher provedores confiáveis com SLA alto; ter plano de backup | Migrar para provedor alternativo rapidamente; usar CDN para reduzir carga |
+| Dependências Externas | Indisponibilidade temporária da API do Spotify | Alto | Baixo | Implementar cache e retry logic; monitorar status da API | Usar cache offline ou notificar usuários sobre indisponibilidade temporária |
+| Saúde | Doença prolongada de um membro chave da equipe | Alto | Baixo | Incentivar trabalho remoto flexível e equilíbrio vida-trabalho; ter seguro saúde | Redistribuir responsabilidades e contratar suporte temporário |
+| Mercado | Mudanças nas tendências de mercado afetando relevância do app | Médio | Baixo | Realizar pesquisa de mercado inicial e monitoramento contínuo | Adaptar funcionalidades com base em feedback; pivotar se necessário |
+| Legal | Questões de direitos autorais com músicas ou dados | Alto | Baixo | Consultar especialistas legais e garantir compliance com leis de dados | Remover conteúdo infrator e buscar licenças adequadas |
+| Comunicação | Falhas na comunicação interna levando a mal-entendidos | Médio | Alto | Estabelecer canais claros (GitHub, Discord) e reuniões regulares | Realizar reuniões de esclarecimento e documentar decisões |
+| Recursos | Falta de acesso a hardware/software necessário | Baixo | Médio | Verificar disponibilidade antecipada e ter backups | Usar alternativas open-source ou adquirir recursos adicionais |
+| Motivação | Baixa motivação da equipe devido a sobrecarga | Médio | Médio | Promover ambiente positivo, reconhecer conquistas e equilibrar carga de trabalho | Oferecer incentivos ou redistribuir tarefas para evitar burnout |
+| Cliente | Feedback negativo pós-lançamento afetando reputação | Médio | Baixo | Coletar feedback beta e implementar melhorias | Responder rapidamente, corrigir issues e comunicar transparências |
+| Financeiro | Inflação ou mudanças cambiais afetando custos | Baixo | Baixo | Incluir buffer no orçamento e monitorar índices econômicos | Ajustar orçamento e buscar fontes alternativas de financiamento |
+| Tecnologia | Obsolescência de tecnologias escolhidas (ex: Node.js versões antigas) | Médio | Baixo | Escolher tecnologias maduras e manter atualizações regulares | Planejar migração gradual para versões mais recentes |
 
 > Indique:
 > Categoria do Risco: _ex.: Cliente, Cronograma, Orçamento, Aquisição de produtos, etc_
